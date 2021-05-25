@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UpLoadOption xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <UpLoadContent>初次测试</UpLoadContent>
-  <UpLoadFileUrl>http://10.1.3.223:7778/</UpLoadFileUrl>
-  <ProgrmStartupDir>E:\MESAupdate\SwordMES.exe</ProgrmStartupDir>
+  <UpLoadFileUrl>http://8.8.8.*:7777/</UpLoadFileUrl>
+  <ProgrmStartupDir>E:\MESAupdate\***.exe</ProgrmStartupDir>
   <UpLoadFiles>
     <UpLoad>
       <Version>1.0.0.3</Version>
