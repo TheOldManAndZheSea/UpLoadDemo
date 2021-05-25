@@ -32,15 +32,19 @@ UpLoadVersion.xml需要放置在程序安装目录和服务器更新目录里，
 
 ## 测试更新
 > 如图，本地现在是没有文件和信息的
+> 
 > ![image](https://user-images.githubusercontent.com/30279211/119332267-eeb96b00-bcba-11eb-9c99-888c82c231f6.png)
 
 >运行程序，会提示你更新
+>
 >![image](https://user-images.githubusercontent.com/30279211/119332326-01cc3b00-bcbb-11eb-862a-545b30575313.png)
 
 >点击更新，开始下载，下载完成后会自动关闭更新程序，运行你**ProgrmStartupDir**里配置的程序
+>
 >![image](https://user-images.githubusercontent.com/30279211/119332369-101a5700-bcbb-11eb-8560-7a46a917103e.png)
 
 > 让我们看一看配置文件里有啥更改，跟服务器里的配置文件变得一模一样了
+> 
 > ![image](https://user-images.githubusercontent.com/30279211/119332586-5ff91e00-bcbb-11eb-95a0-32d033760346.png)
 
 
