@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using UpLoadDemo.Unitity;
 using UpLoadDemo.XmlModel;
 
@@ -15,6 +16,12 @@ namespace UpLoadDemo
         [STAThread]
         static void Main(string[] args)
         {
+            bool ret;
+            System.Threading.Mutex mutex = new System.Threading.Mutex(true, @"Local/UpLoadDemo", out ret);//这里填写程序名称
+            if (!ret)
+            {
+                KillProcess("UpLoadDemo");
+            }
             UpLoadDemo.App app = new App();
             if (ContrastProgram())//需要更新程序
             {
@@ -28,54 +35,69 @@ namespace UpLoadDemo
             }
             
         }
+        /// <summary>
+        /// 关闭进程
+        /// </summary>
+        /// <param name="processName">进程名</param>
+        private static void KillProcess(string processName)
+        {
+            Process[] myproc = Process.GetProcesses();
+            foreach (Process item in myproc)
+            {
+                if (item.ProcessName == processName)
+                {
+                    item.Kill();
+                }
+            }
+        }
         private static bool ContrastProgram()
         {
             //读取更新配置文件
-            FileStream fs = File.Open(AppDomain.CurrentDomain.BaseDirectory + "UpLoadVersion.xml", FileMode.Open, FileAccess.Read);
-            StreamReader sr = new StreamReader(fs);
-            string text = sr.ReadToEnd();
-            StaticModel.MyUpLoadModel = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
-            if (StaticModel.MyUpLoadModel != null && !string.IsNullOrEmpty(StaticModel.MyUpLoadModel.UpLoadFileUrl))
+            try
             {
-                StaticModel.ServerUpLoadModel = GetUpLoads(StaticModel.MyUpLoadModel.UpLoadFileUrl + "UpLoadVersion.xml");
-            }
-            if (StaticModel.ServerUpLoadModel!=null)
-            {
-                List<UpLoad> uploadList = new List<UpLoad>();
-                foreach (var item in StaticModel.ServerUpLoadModel.UpLoadFiles)
+                FileStream fs = File.Open(AppDomain.CurrentDomain.BaseDirectory + "UpLoadVersion.xml", FileMode.Open, FileAccess.Read);
+                StreamReader sr = new StreamReader(fs);
+                string text = sr.ReadToEnd();
+                StaticModel.MyUpLoadModel = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
+                SocketClient socketClient = new SocketClient();
+                socketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
+                socketClient.SendMsg(JsonSerializer.ObjectToJSON(new ReceiveEntityModel { method = "get_ver", data = StaticModel.MyUpLoadModel.ExeName }));
+                while (socketClient.IsOk)
                 {
-                    var firstmodel = StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s => s.FileName == item.FileName);
-                    if (firstmodel != null && Version.Parse(item.Version) > Version.Parse(firstmodel.Version))
-                    {
-                        uploadList.Add(item);
-                    }
-                    if (firstmodel == null)
-                    {
-                        uploadList.Add(item);
-                    }
+
                 }
-                StaticModel.UpLoads = uploadList;
+                socketClient.StopListen();
+                if (StaticModel.ServerUpLoadModel != null)
+                {
+                    List<UpLoad> uploadList = new List<UpLoad>();
+                    foreach (var item in StaticModel.ServerUpLoadModel.UpLoadFiles)
+                    {
+                        var firstmodel = StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s => s.FileName == item.FileName);
+                        if (firstmodel != null && Version.Parse(item.Version) > Version.Parse(firstmodel.Version))
+                        {
+                            uploadList.Add(item);
+                        }
+                        if (firstmodel == null)
+                        {
+                            uploadList.Add(item);
+                        }
+                    }
+                    StaticModel.UpLoads = uploadList;
+                }
+                if (StaticModel.UpLoads != null && StaticModel.UpLoads.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            if (StaticModel.UpLoads!=null&& StaticModel.UpLoads.Count>0)
-            {
-                return true;
-            }
-            else
+            catch (Exception ex)
             {
                 return false;
             }
-        }
-        /// <summary>
-        /// 获取服务器更新地址的更新文件信息
-        /// </summary>
-        /// <param name="urlfile">更新文件目录</param>
-        /// <returns></returns>
-        private static UpLoadOption GetUpLoads(string urlfile)
-        {
-            WebRequest webRequest = WebRequest.Create(urlfile);
-            WebResponse webResponse = webRequest.GetResponse();
-            StreamReader stream = new StreamReader(webResponse.GetResponseStream());
-            return XmlSerializeHelper.DeSerialize<UpLoadOption>(stream.ReadToEnd());
+            
         }
     }
 }

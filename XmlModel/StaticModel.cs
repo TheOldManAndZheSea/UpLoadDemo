@@ -19,6 +19,10 @@ namespace UpLoadDemo.XmlModel
         /// 需要更新的内容
         /// </summary>
         public static List<UpLoad> UpLoads { get; set; }
+        /// <summary>
+        /// 更新错误的内容
+        /// </summary>
+        public static List<UpLoad> ErroUpLoads { get; set; }
         public static string[] MainArgs { get; set; }
     }
 }

@@ -10,13 +10,21 @@ namespace UpLoadDemo.XmlModel
     public class UpLoadOption
     {
         /// <summary>
+        /// 软件更新标识
+        /// </summary>
+        public string ExeName { get; set; }
+        /// <summary>
         /// 更新内容
         /// </summary>
         public string UpLoadContent { get; set; }
         /// <summary>
-        /// 更新地址
+        /// socket ip
         /// </summary>
-        public string UpLoadFileUrl { get; set; }
+        public string ServerIP { get; set; }
+        /// <summary>
+        /// socket port
+        /// </summary>
+        public int ServerPort { get; set; }
         /// <summary>
         /// 程序启动目录
         /// </summary>

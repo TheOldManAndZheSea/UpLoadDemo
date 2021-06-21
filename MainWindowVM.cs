@@ -14,10 +14,12 @@ using UpLoadDemo.XmlModel;
 
 namespace UpLoadDemo
 {
-    public class MainWindowVM:ViewModelBase
+    public class MainWindowVM : ViewModelBase
     {
-        
+
         private string MyXmlPath = AppDomain.CurrentDomain.BaseDirectory + "UpLoadVersion.xml";
+
+        private SocketClient SocketClient = new SocketClient();
         public MainWindowVM()
         {
             //读取更新配置文件
@@ -25,7 +27,7 @@ namespace UpLoadDemo
             //StreamReader sr = new StreamReader(fs);
             //string text = sr.ReadToEnd();
             //StaticModel.MyUpLoadModel = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
-            if (StaticModel.MyUpLoadModel !=null&&!string.IsNullOrEmpty(StaticModel.MyUpLoadModel.UpLoadFileUrl)&& StaticModel.ServerUpLoadModel!=null)
+            if (StaticModel.MyUpLoadModel != null && StaticModel.ServerUpLoadModel != null)
             {
                 UpLoadContent = StaticModel.ServerUpLoadModel.UpLoadContent;
             }
@@ -35,15 +37,19 @@ namespace UpLoadDemo
                 ContentTitle = "详细信息：";
                 UpLoadContent = "本地配置文件或者服务器配置文件有问题！";
             }
-            
+
             CloseWinCommand = new RelayCommand(new
                  Action<object>(CloseExaute));
             BtnUpLoadCommand = new RelayCommand(new Action<object>(UpLoadExcute));
+            SocketClient = new SocketClient();
+            SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
+            SocketClient.ShowMsg += AppendMsg;
+            SocketClient.ShowProValue += AppendBarValue;
         }
 
         #region 字段
         private System.Windows.Controls.ScrollViewer MsgScrollViewer = null;
-        private string _title="软件更新";
+        private string _title = "软件更新";
         /// <summary>
         /// 标题
         /// </summary>
@@ -69,7 +75,9 @@ namespace UpLoadDemo
         public string UpLoadContent
         {
             get { return _UpLoadContent; }
-            set { _UpLoadContent = value;
+            set
+            {
+                _UpLoadContent = value;
                 NotifyPropertyChanged("UpLoadContent");
             }
         }
@@ -103,7 +111,7 @@ namespace UpLoadDemo
             set { _ProgressBarValue = value; this.NotifyPropertyChanged("ProgressBarValue"); }
         }
 
-        private Visibility _ProgressBarVisiblity=Visibility.Collapsed;
+        private Visibility _ProgressBarVisiblity = Visibility.Collapsed;
         /// <summary>
         /// 进度条是否显示
         /// </summary>
@@ -133,17 +141,23 @@ namespace UpLoadDemo
         /// <param name="obj"></param>
         private void CloseExaute(object obj)
         {
-            if (obj is Window) (obj as
-                       Window).Close();
+            if (obj is Window)
+            {
+                Process.GetCurrentProcess().Kill();
+                (obj as Window).Close();
+            }
         }
-
+        /// <summary>
+        /// 开始更新的方法
+        /// </summary>
+        /// <param name="obj"></param>
         private void UpLoadExcute(object obj)
         {
-            Thread thread = new Thread(()=>{
-                if (obj!=null&&obj is System.Windows.Controls.FlowDocumentScrollViewer)
+            Thread thread = new Thread(() => {
+                if (obj != null && obj is System.Windows.Controls.FlowDocumentScrollViewer)
                 {
                     var uartDataFlowDocument = obj as System.Windows.Controls.FlowDocumentScrollViewer;
-                   MsgScrollViewer = uartDataFlowDocument.Template.FindName("PART_ContentHost", uartDataFlowDocument) as System.Windows.Controls.ScrollViewer;
+                    MsgScrollViewer = uartDataFlowDocument.Template.FindName("PART_ContentHost", uartDataFlowDocument) as System.Windows.Controls.ScrollViewer;
                 }
                 BtnIsEnabled = false;
                 ProgressBarVisiblity = Visibility.Visible;
@@ -151,95 +165,106 @@ namespace UpLoadDemo
                 ContentTitle = "更新信息：";
                 UpLoadContent = "\r\n";
                 AppendMsg("正在比对本地系统与服务器的版本信息。");
-                
+
                 ProgressBarValue = 4;
-                AppendMsg("需要更新"+ StaticModel.UpLoads.Count+"个文件！");
+                AppendMsg("需要更新" + StaticModel.UpLoads.Count + "个文件！");
                 UpLoadDown(StaticModel.UpLoads);
-                AppendMsg("正在重新启动程序...");
-                Thread.Sleep(2000);
-                Process p = new Process();
-                p.StartInfo.FileName = System.AppDomain.CurrentDomain.BaseDirectory + "UpLoadDemo.exe";
-                p.StartInfo.UseShellExecute = false;
-                p.Start();
-                Application.Current.Dispatcher.Invoke(new Action(()=> {
-                    Application.Current.Shutdown();
-                }));
+
                 //BtnIsEnabled = true;
                 //BtnName = "立 即 更 新";
             });
             thread.IsBackground = false;
             thread.Start();
         }
+        /// <summary>
+        /// 文件下载的方法
+        /// </summary>
+        /// <param name="upLoads"></param>
         private void UpLoadDown(List<UpLoad> upLoads)
         {
-            double uploadvalue = (100-ProgressBarValue) / upLoads.Count;
+            double uploadvalue = (100 - ProgressBarValue) / upLoads.Count;
+            StaticModel.ErroUpLoads = new List<UpLoad>();
             foreach (var item in upLoads)
             {
-                AppendMsg("开始更新文件："+item.FileName);
+                AppendMsg("开始更新文件：" + item.FileName);
                 AppendMsg("开始下载文件：" + item.FileName);
-                DownloadFile(item,uploadvalue);
+                if (!DownloadFile(item, uploadvalue))
+                {
+                    
+                }
             }
-            AppendMsg("文件全部下载成功！");
             ProgressBarValue = 100;
             //更新保存xml
             XmlSerializeHelper.Serialize<UpLoadOption>(StaticModel.MyUpLoadModel, MyXmlPath);
-        }
+            if (StaticModel.ErroUpLoads.Count == 0)
+            {
+                AppendMsg("文件全部下载成功！");
+                AppendMsg("正在重新启动程序...");
+                Thread.Sleep(2000);
+                Process p = new Process();
+                p.StartInfo.FileName = System.AppDomain.CurrentDomain.BaseDirectory + "UpLoadDemo.exe";
+                p.StartInfo.UseShellExecute = false;
+                p.Start();
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    Application.Current.Shutdown();
+                }));
+            }
+            else
+            {
+                BtnName = "更新失败";
+                string msg = "部分文件下载失败：";
+                StaticModel.ErroUpLoads.ForEach(s => msg += s.FileName + ",");
+                AppendMsg(msg+"\r\n请联系技术人员进行查看！");
+                BtnIsEnabled = true;
+            }
 
-        public void DownloadFile(UpLoad upLoad,double proValue)
+        }
+        /// <summary>
+        /// 单个文件具体的网络下载方法
+        /// </summary>
+        /// <param name="upLoad">下载文件信息</param>
+        /// <param name="proValue">进度条</param>
+        /// <returns></returns>
+        public bool DownloadFile(UpLoad upLoad, double proValue)
         {
-            string URL = StaticModel.ServerUpLoadModel.UpLoadFileUrl + upLoad.FileName;
-            float percent = 0;
             try
             {
-                System.Net.HttpWebRequest Myrq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL);
-                System.Net.HttpWebResponse myrp = (System.Net.HttpWebResponse)Myrq.GetResponse();
-                long totalBytes = myrp.ContentLength;
-                System.IO.Stream st = myrp.GetResponseStream();
-                System.IO.Stream so = new System.IO.FileStream(AppDomain.CurrentDomain.BaseDirectory + upLoad.FileName, System.IO.FileMode.Create);
-                long totalDownloadedByte = 0;
-                byte[] by = new byte[1024];
-                int osize = st.Read(by, 0, (int)by.Length);
-                double download = ProgressBarValue;
-                while (osize > 0)
+                SocketClient.IsDown = true;
+                string filename = AppDomain.CurrentDomain.BaseDirectory + upLoad.FileName;
+                string dirpath = Path.GetDirectoryName(filename);
+                if (!System.IO.Directory.Exists(dirpath))
+                {
+                    System.IO.Directory.CreateDirectory(dirpath);
+                }
+                SocketClient.SendMsg(upLoad,proValue,ProgressBarValue);
+                while (SocketClient.IsDown)
                 {
 
-                    totalDownloadedByte = osize + totalDownloadedByte;
-                    so.Write(by, 0, osize);
-                    download += ((float)osize / (float)totalBytes) * proValue;
-                    osize = st.Read(by, 0, (int)by.Length);
-                    ProgressBarValue = Math.Round(download,2);
-                    percent = (float)totalDownloadedByte / (float)totalBytes * 100;
-
-                    if (percent == 100)//下载成功
-                    {
-                        AppendMsg("文件：" + upLoad.FileName+"下载成功！");
-                        var mymodel= StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s=>s.FileName.Equals(upLoad.FileName));
-                        if (mymodel==null)
-                        {
-                            StaticModel.MyUpLoadModel.UpLoadFiles.Add(upLoad);
-                        }
-                        else
-                        {
-                            StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s => s.FileName.Equals(upLoad.FileName)).Version = upLoad.Version;
-                        }
-                    }
                 }
-                so.Close();
-                st.Close();
+                return true;
             }
             catch (System.Exception ee)
             {
-                AppendMsg("下载文件时发生错误："+ee.Message);
+                AppendMsg("下载文件时发生错误：" + ee.Message);
+                return false;
             }
         }
-        
+        /// <summary>
+        /// 日志输出
+        /// </summary>
+        /// <param name="msg"></param>
         private void AppendMsg(string msg)
         {
             UpLoadContent += msg + "\r\n";
-            if (MsgScrollViewer!=null)
+            if (MsgScrollViewer != null)
             {
                 MsgScrollViewer.Dispatcher.Invoke(new Action(() => { MsgScrollViewer.ScrollToBottom(); }));
             }
+        }
+
+        private void AppendBarValue(double value)
+        {
+            ProgressBarValue = value;
         }
         #endregion
     }

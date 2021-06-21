@@ -57,6 +57,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,7 +80,10 @@
     <Compile Include="Controls\ButtonEx.cs" />
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Unitity\JsonSerializer.cs" />
+    <Compile Include="Unitity\ReceiveEntityModel.cs" />
     <Compile Include="Unitity\RelayCommand.cs" />
+    <Compile Include="Unitity\SocketClient.cs" />
     <Compile Include="Unitity\ViewModelBase.cs" />
     <Compile Include="Unitity\XmlSerializeHelper.cs" />
     <Compile Include="XmlModel\StaticModel.cs" />
@@ -122,6 +128,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
