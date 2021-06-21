@@ -1,0 +1,9 @@
+E:\Github\UploadCommon\bin\Debug\UploadCommon.dll
+E:\Github\UploadCommon\bin\Debug\UploadCommon.pdb
+E:\Github\UploadCommon\obj\Debug\UploadCommon.csproj.CoreCompileInputs.cache
+E:\Github\UploadCommon\obj\Debug\UploadCommon.dll
+E:\Github\UploadCommon\obj\Debug\UploadCommon.pdb
+E:\Github\UploadCommon\bin\Debug\Newtonsoft.Json.dll
+E:\Github\UploadCommon\bin\Debug\Newtonsoft.Json.xml
+E:\Github\UploadCommon\obj\Debug\UploadCommon.csprojAssemblyReference.cache
+E:\Github\UploadCommon\obj\Debug\UploadCommon.csproj.CopyComplete

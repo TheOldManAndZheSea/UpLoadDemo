@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExeXmlEntity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ServerPort>54321</ServerPort>
+  <AllListenExes>
+    <ExeEntityModel>
+      <Index>1</Index>
+      <ExeName>mes</ExeName>
+      <ExePath>D:\uploadfile</ExePath>
+    </ExeEntityModel>
+  </AllListenExes>
+</ExeXmlEntity>

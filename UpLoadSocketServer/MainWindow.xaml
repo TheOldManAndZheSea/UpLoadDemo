@@ -1,0 +1,82 @@
+﻿<Window x:Class="UpLoadSocketServer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UpLoadSocketServer"
+        mc:Ignorable="d"
+        xmlns:ctr="clr-namespace:UploadUserContrals;assembly=UploadUserContrals"
+        Title="更新监听程序" WindowStartupLocation="CenterScreen" Style="{StaticResource ServerWindow}" x:Name="main">
+    <Window.DataContext>
+        <local:MainWindowVM/>
+    </Window.DataContext>
+    <Border CornerRadius="7" Background="#393e46">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" ShadowDepth="0" Opacity="0.4" BlurRadius="14"/>
+        </Border.Effect>
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border CornerRadius="7,7,0,0" MouseMove="Border_MouseMove" Grid.Row="0" BorderBrush="#90464f41" BorderThickness="0,0,0,1">
+                <Grid>
+                    <TextBlock Text="下载监听服务" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="28" Foreground="#22A7F0" FontWeight="Bold"/>
+                    <ctr:ButtonEx ButtonType="Icon" Margin="0,0,50,0" VerticalAlignment="Center" HorizontalAlignment="Right" IconWidth="15" IconHeight="15" ToolTip="最小化" FontWeight="Bold" Command="{Binding MinWinCommand}" CommandParameter="{Binding ElementName=main}" Foreground="White" Icon="M768 245.76a10.24 10.24 0 0 1 10.24 10.24v512a10.24 10.24 0 0 1-10.24 10.24H256a10.24 10.24 0 0 1-10.24-10.24V256a10.24 10.24 0 0 1 10.24-10.24z m-10.24 20.48H266.24v491.52h491.52V266.24zM645.12 655.36a10.24 10.24 0 0 1 1.19808 20.40832L645.12 675.84H378.88a10.24 10.24 0 0 1-1.19808-20.40832L378.88 655.36h266.24z"/>
+                    <ctr:ButtonEx ButtonType="Icon" Margin="0,0,20,0" VerticalAlignment="Center" HorizontalAlignment="Right" IconWidth="15" IconHeight="15" ToolTip="关闭" Command="{Binding CloseWinCommand}" CommandParameter="{Binding ElementName=main}" Foreground="White" Icon="M583.168 372.224L958.464 747.52c18.944 18.944 18.944 50.176 0 69.12l-2.048 2.048c-18.944 18.944-50.176 18.944-69.12 0L512 442.88 136.704 818.688c-18.944 18.944-50.176 18.944-69.12 0l-2.048-2.048c-19.456-18.944-19.456-50.176 0-69.12l375.296-375.296L65.536-3.072c-18.944-18.944-18.944-50.176 0-69.12l2.048-2.048c18.944-18.944 50.176-18.944 69.12 0L512 301.056 887.296-74.24c18.944-18.944 50.176-18.944 69.12 0l2.048 2.048c18.944 18.944 18.944 50.176 0 69.12L583.168 372.224z"/>
+                </Grid>
+            </Border>
+            <Border CornerRadius="0,0,7,7" Grid.Row="1" BorderThickness="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="270"/>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                            <ctr:ButtonEx Content="添加更新程序" Background="#22A7F0" VerticalAlignment="Center" Command="{Binding AddExeCommand}" Width="90" Height="25" CornerRadius="3"/>
+                        </StackPanel>
+                        <DataGrid Grid.Row="1" x:Name="grd" ColumnHeaderHeight="35" FontSize="18" Foreground="White" RowHeight="28" ItemsSource="{Binding DataList}"  Margin="20,0,20,0" BorderThickness="0" Background="Transparent" CanUserSortColumns="False" SelectionMode="Single" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black" GridLinesVisibility="None" RowDetailsVisibilityMode="Collapsed" ForceCursor="True" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Index}" Header="序号" Width="60" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridTextColumn Binding="{Binding ExeName}" Header="监听程序" Width="*" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridTextColumn Binding="{Binding ExePath}" Header="监听路径" Width="*" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridTemplateColumn Header="操作" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ctr:ButtonEx Content="修改" Background="#22A7F0" Command="{Binding DataContext.EditExeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=grd}" Width="50" Height="25" CornerRadius="3"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10">
+                        <TextBlock Text="监听日志：" FontWeight="Bold" FontSize="16" Foreground="#22A7F0"/>
+                        <FlowDocumentScrollViewer x:Name="MsgScrollViewer" Height="70" Margin="0,10,0,0" BorderBrush="#22A7F0" Background="#22A7F0" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <FlowDocument FontSize="12"
+                               FontFamily="Calibri" 
+                               Foreground="#22A7F0" 
+                               PagePadding="0,0,10,0">
+                                <Paragraph TextIndent="20" 
+                                Margin="10,0,0,0">
+                                    <Run Text="{Binding UpLoadContent}" />
+                                </Paragraph>
+                            </FlowDocument>
+                        </FlowDocumentScrollViewer>
+                    </StackPanel>
+                    <Grid Grid.Row="2">
+                        <TextBlock Text="{Binding ListenMsg}" FontSize="12" Foreground="GreenYellow" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
