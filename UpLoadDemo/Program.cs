@@ -23,6 +23,7 @@ namespace UpLoadDemo
                 KillProcess("UpLoadDemo");
             }
             UpLoadDemo.App app = new App();
+            RefreshVisionXml();
             if (ContrastProgram())//需要更新程序
             {
                 app.InitializeComponent();
@@ -30,10 +31,54 @@ namespace UpLoadDemo
             }
             else//打开配置文件里的程序
             {
-                if (string.IsNullOrEmpty(StaticModel.MyUpLoadModel.ProgrmStartupDir)) return;
-                Process.Start(StaticModel.MyUpLoadModel.ProgrmStartupDir);
+                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "Program/" + StaticModel.MyUpLoadModel.ProgrmStartupExe))
+                {
+                    if (string.IsNullOrEmpty(AppDomain.CurrentDomain.BaseDirectory + "Program\\" + StaticModel.MyUpLoadModel.ProgrmStartupExe)) return;
+                    //Process.Start();
+                    //KillProcess("UpLoadDemo");
+                    string exepath = AppDomain.CurrentDomain.BaseDirectory + "Program\\" + StaticModel.MyUpLoadModel.ProgrmStartupExe;
+                    ProcessStartInfo psi = new ProcessStartInfo();
+                    psi.FileName = exepath;
+                    psi.WorkingDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory + "Program\\");
+                    Process.Start(psi);
+                }
             }
             
+        }
+        /// <summary>
+        /// 刷新配置更新文件
+        /// </summary>
+        private static void RefreshVisionXml()
+        {
+            try
+            {
+                string xmlpath = AppDomain.CurrentDomain.BaseDirectory + "UpLoadVersion.xml";
+                MD5Helper mD5Helper = new MD5Helper();
+                if (File.Exists(xmlpath))
+                {
+                    UpLoadOption fileOption = new UpLoadOption();
+                    using (FileStream fs = File.Open(xmlpath, FileMode.Open, FileAccess.Read))
+                    {
+                        StreamReader sr = new StreamReader(fs);
+                        string text = sr.ReadToEnd();
+                        fileOption = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
+                    }
+                    //读取目录下所有的文件和子文件夹信息
+                    List<string> filePaths = mD5Helper.GetFile(AppDomain.CurrentDomain.BaseDirectory + "Program", new List<string>());
+                    List<UpLoad> refLoads = new List<UpLoad>();
+                    foreach (var item in filePaths)
+                    {
+                        refLoads.Add(new UpLoad { FileName = item.Replace(AppDomain.CurrentDomain.BaseDirectory + "Program" + "\\", ""), Version = mD5Helper.GetFileMD5(item) });
+                    }
+                    fileOption.UpLoadFiles = refLoads;
+                    XmlSerializeHelper.Serialize<UpLoadOption>(fileOption, xmlpath);
+                }
+                
+            }
+            catch
+            {
+            }
+
         }
         /// <summary>
         /// 关闭进程
@@ -50,6 +95,10 @@ namespace UpLoadDemo
                 }
             }
         }
+        /// <summary>
+        /// 比对是否需要更新
+        /// </summary>
+        /// <returns></returns>
         private static bool ContrastProgram()
         {
             //读取更新配置文件
@@ -60,20 +109,24 @@ namespace UpLoadDemo
                 string text = sr.ReadToEnd();
                 StaticModel.MyUpLoadModel = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
                 SocketClient socketClient = new SocketClient();
-                socketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
+                //socketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
                 socketClient.SendMsg(JsonSerializer.ObjectToJSON(new ReceiveEntityModel { method = "get_ver", data = StaticModel.MyUpLoadModel.ExeName }));
                 while (socketClient.IsOk)
                 {
 
                 }
-                socketClient.StopListen();
+                //socketClient.StopListen();
                 if (StaticModel.ServerUpLoadModel != null)
                 {
                     List<UpLoad> uploadList = new List<UpLoad>();
                     foreach (var item in StaticModel.ServerUpLoadModel.UpLoadFiles)
                     {
                         var firstmodel = StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s => s.FileName == item.FileName);
-                        if (firstmodel != null && Version.Parse(item.Version) > Version.Parse(firstmodel.Version))
+                        if (StaticModel.ServerUpLoadModel.UnWantedFiles!=null&&StaticModel.ServerUpLoadModel.UnWantedFiles.Where(s=>s.FileName.Equals(firstmodel.FileName)).Count()>0)
+                        {
+                            continue;
+                        }
+                        if (firstmodel != null && !firstmodel.Version.Equals(item.Version))
                         {
                             uploadList.Add(item);
                         }

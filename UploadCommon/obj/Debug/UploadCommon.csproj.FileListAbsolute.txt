@@ -7,3 +7,14 @@ E:\Github\UploadCommon\bin\Debug\Newtonsoft.Json.dll
 E:\Github\UploadCommon\bin\Debug\Newtonsoft.Json.xml
 E:\Github\UploadCommon\obj\Debug\UploadCommon.csprojAssemblyReference.cache
 E:\Github\UploadCommon\obj\Debug\UploadCommon.csproj.CopyComplete
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\UploadCommon.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\UploadCommon.pdb
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\Newtonsoft.Json.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\Newtonsoft.Json.xml
+E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.csproj.CoreCompileInputs.cache
+E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.csproj.CopyComplete
+E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.dll
+E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.pdb
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\log4net.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\log4net.xml
+E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.csprojAssemblyReference.cache

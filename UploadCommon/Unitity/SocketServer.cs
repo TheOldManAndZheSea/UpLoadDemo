@@ -5,26 +5,102 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using UploadCommon.XmlModel;
 
 namespace UploadCommon.Unitity
 {
+    public class Conn
+    { //定义数据最大长度
+        public const int data = 1024;
+        //Socket
+        public Socket socket;
+        //是否使用
+        public bool isUse = false;
+        //Buff
+        public byte[] readBuff = new byte[data];
+        public int buffCount = 0;
+        //构造函数
+        public Conn()
+        {
+            readBuff = new byte[data];
+        }
+        //初始化
+        public void Init(Socket socket)
+        {
+            this.socket = socket;
+            isUse = true;
+            buffCount = 0;
+        }
+        //缓冲区剩余的字节数
+        public int BuffRemain()
+        {
+            return data - buffCount;
+        }
+
+        //获取客户端地址
+        public string GetAdress()
+        {
+            if (!isUse)
+                return "无法获取地址";
+            return socket.RemoteEndPoint.ToString();
+        }
+        //关闭
+        public void Close()
+        {
+            if (!isUse)
+                return;
+            Console.WriteLine("[断开链接]" + GetAdress());
+            socket.Close();
+            isUse = false;
+        }
+    }
     /// <summary>
     /// socket服务类
     /// </summary>
     public class SocketServer
     {
+        /// <summary>
+        /// 创建多个Conn管理客户端的连接
+        /// </summary>
+        private static Conn[] conns;
+        /// <summary>
+        /// 最大连接数
+        /// </summary>
+        public static int maxConn = 50;
         private static string _ip = "0.0.0.0";
         private static Socket _socket = null;
-        private static byte[] buffer = new byte[1024 * 1024 * 2];
 
         public static ExeXmlEntity XmlEntity = new ExeXmlEntity();
 
         public delegate void ListenToMsgEventHandle(string msg);
 
         public static event ListenToMsgEventHandle ListToMsg;
+        /// <summary>
+        /// 获取链接池索引，返回负数表示获取失败
+        /// </summary>
+        /// <returns></returns>
+        public static int NewIndex()
+        {
+            if (conns == null)
+                return -1;
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] == null)
+
+                {
+                    conns[i] = new Conn();
+                    return i;
+                }
+                else if (conns[i].isUse == false)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
         /// <summary>
         /// 监听服务
         /// </summary>
@@ -33,6 +109,12 @@ namespace UploadCommon.Unitity
         {
             try
             {
+                //创建多个链接池，表示创建maxConn最大客户端
+                conns = new Conn[maxConn];
+                for (int i = 0; i < maxConn; i++)
+                {
+                    conns[i] = new Conn();
+                }
                 //1.0 实例化套接字(IP4寻找协议,流式协议,TCP协议)
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2.0 创建IP对象
@@ -42,15 +124,14 @@ namespace UploadCommon.Unitity
                 //4.0 绑定套接字
                 _socket.Bind(endPoint);
                 //5.0 设置最大连接数
-                _socket.Listen(int.MaxValue);
+                _socket.Listen(maxConn);
                 if (ListToMsg!=null)
                 {
                     ListToMsg($"监听{_socket.LocalEndPoint.ToString()}消息成功");
                 }
-                //Console.WriteLine("监听{0}消息成功", _socket.LocalEndPoint.ToString());
-                //6.0 开始监听
-                Thread thread = new Thread(ListenClientConnect);
-                thread.Start();
+                //Thread thread = new Thread(ListenClientConnect);
+                //thread.Start();
+                _socket.BeginAccept(ListenClientConnect, null);
                 return true;
             }
             catch (Exception ex)
@@ -79,18 +160,30 @@ namespace UploadCommon.Unitity
         /// <summary>
         /// 监听客户端连接
         /// </summary>
-        private static void ListenClientConnect()
+        private static void ListenClientConnect(IAsyncResult ar)
         {
             try
             {
-                while (true)
-                {
                     //Socket创建的新连接
-                    Socket clientSocket = _socket.Accept();
-                    clientSocket.Send(Encoding.UTF8.GetBytes("服务端发送消息:"));
-                    Thread thread = new Thread(ReceiveMessage);
-                    thread.Start(clientSocket);
+                Socket clientSocket = _socket.EndAccept(ar);
+                //clientSocket.Send(Encoding.UTF8.GetBytes("服务端发送消息:"));
+                //Thread thread = new Thread(ReceiveMessage);
+                //thread.Start(clientSocket);
+                int index = NewIndex();
+                if (index < 0)
+                {
+                    clientSocket.Close();
+                    Console.Write("[警告]链接已满");
                 }
+                else
+                {
+                    Conn conn = conns[index];
+                    conn.Init(clientSocket);
+                    string adr = conn.GetAdress();
+                    Console.WriteLine("客户端连接 [" + adr + "] conn池ID：" + index);
+                    conn.socket.BeginReceive(conn.readBuff, conn.buffCount, conn.BuffRemain(), SocketFlags.None, ReceiveMessage, conn);
+                }
+                _socket.BeginAccept(ListenClientConnect, null);
             }
             catch (Exception)
             {
@@ -101,24 +194,28 @@ namespace UploadCommon.Unitity
         /// 接收客户端消息
         /// </summary>
         /// <param name="socket">来自客户端的socket</param>
-        private static void ReceiveMessage(object socket)
+        private static void ReceiveMessage(IAsyncResult ar)
         {
-            Socket clientSocket = (Socket)socket;
-            while (true)
-            {
+            Conn conn = (Conn)ar.AsyncState;
                 try
                 {
                     //获取从客户端发来的数据
-                    int length = clientSocket.Receive(buffer);
-                    SendToClient(clientSocket, Encoding.UTF8.GetString(buffer, 0, length));
-                }
+                    int length = conn.socket.EndReceive(ar);
+                    //关闭信号
+                    if (length <= 0)
+                    {
+                        Console.WriteLine("收到 [" + conn.GetAdress() + "] 断开链接");
+                        conn.Close();
+                        return;
+                    }
+                    SendToClient(conn.socket, Encoding.UTF8.GetString(conn.readBuff, 0, length));
+                //继续接收
+                conn.socket.BeginReceive(conn.readBuff, conn.buffCount, conn.BuffRemain(), SocketFlags.None, ReceiveMessage, conn);
+            }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                    clientSocket.Close();
-                    break;
-                }
+                conn.Close();
             }
         }
         private static void SendToClient(Socket client, string receivemsg)
@@ -127,6 +224,7 @@ namespace UploadCommon.Unitity
             {
                 if (!string.IsNullOrEmpty(receivemsg))
                 {
+                    Logger.Info(receivemsg);
                     ReceiveEntityModel receiveExe = JsonConvert.DeserializeObject<ReceiveEntityModel>(receivemsg);
                     switch (receiveExe.method)
                     {
@@ -165,12 +263,9 @@ namespace UploadCommon.Unitity
                 {
                     StreamReader sr = new StreamReader(fs);
                     string text = sr.ReadToEnd();
-                    byte[] byteLength = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(XmlSerializeHelper.DeSerialize<UpLoadOption>(text)));
-                    //获得发送的信息时候，在数组前面加上一个字节0 代表是发送字符串而不是文件
-                    List<byte> list = new List<byte>();
-                    list.Add(0);
-                    list.AddRange(byteLength);
-                    socketClient.Send(list.ToArray()); //
+                    SendSocketModel sendSocket = new SendSocketModel { type="0" ,socketdata = JsonConvert.SerializeObject(XmlSerializeHelper.DeSerialize<UpLoadOption>(text)) };
+                    byte[] sendbytes= System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sendSocket));
+                    socketClient.Send(sendbytes);
                     if (ListToMsg != null) ListToMsg("发送完成");
                 }
             }
@@ -186,9 +281,10 @@ namespace UploadCommon.Unitity
                 if (xmlEntity == null) return;
                 if (!File.Exists(xmlEntity.ExePath + "/" + info.FileName))
                 {
-                    List<byte> list = new List<byte>();
-                    list.Add(2);
-                    socketSend.Send(list.ToArray());
+                    SendSocketModel sendSocket = new SendSocketModel { type = "3" };
+                    byte[] sendbytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sendSocket));
+                    socketSend.Send(sendbytes);
+                    return;
                 }
                 //读取选择的文件
                 using (FileStream fsRead = new FileStream(xmlEntity.ExePath+"/"+info.FileName, FileMode.OpenOrCreate, FileAccess.Read))
@@ -196,11 +292,10 @@ namespace UploadCommon.Unitity
                     //1. 第一步：发送一个包，表示文件的长度，让客户端知道后续要接收几个包来重新组织成一个文件
                     long length = fsRead.Length;
                     byte[] byteLength = Encoding.UTF8.GetBytes(length.ToString());
-                    //获得发送的信息时候，在数组前面加上一个字节 1
-                    List<byte> list = new List<byte>();
-                    list.Add(1);
-                    list.AddRange(byteLength);
-                    socketSend.Send(list.ToArray()); //
+                    SendSocketModel sendSocket = new SendSocketModel { type="1", socketdata = length };//长度
+                    byte[] sendbytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sendSocket));
+                    socketSend.Send(sendbytes);
+                    Logger.Info("长度："+length);
                     //2. 第二步：每次发送一个4KB的包，如果文件较大，则会拆分为多个包
                     byte[] buffer = new byte[1024 * 1024];
                     long send = 0; //发送的字节数                   
@@ -217,13 +312,20 @@ namespace UploadCommon.Unitity
                         {
                             ListToMsg(string.Format("{0}: 已发送：{1}/{2}", socketSend.RemoteEndPoint, send, length));
                         }
+                        if (send==length)
+                        {
+                            break;
+                        }
                     }
-                    if (ListToMsg != null) ListToMsg("发送完成");
+                    if (ListToMsg != null) ListToMsg($"{info.FileName}发送完成");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                SendSocketModel sendSocket = new SendSocketModel { type = "4",socketdata=ex.Message };//报错
+                byte[] sendbytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sendSocket));
+                socketSend.Send(sendbytes);
+                return;
             }
         }
     }

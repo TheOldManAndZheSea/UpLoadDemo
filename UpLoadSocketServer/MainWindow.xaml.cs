@@ -31,5 +31,10 @@ namespace UpLoadSocketServer
                 this.DragMove();
             }
         }
+
+        private void MsgScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            (MsgScrollViewer.Template.FindName("PART_ContentHost", MsgScrollViewer) as System.Windows.Controls.ScrollViewer).ScrollToBottom();
+        }
     }
 }

@@ -30,7 +30,11 @@ namespace UpLoadSocketServer
                 Action<object>(AddExeExcute));
             EditExeCommand = new RelayCommand(new
                 Action<object>(EditExeExcute));
+            RefreshCommand = new RelayCommand(new
+                Action<object>(RefreshExcute));
         }
+
+        
 
 
 
@@ -94,9 +98,70 @@ namespace UpLoadSocketServer
         /// 修改的命令
         /// </summary>
         public ICommand EditExeCommand { get; set; }
+        /// <summary>
+        /// 更新配置的命令
+        /// </summary>
+        public ICommand RefreshCommand { get; set; }
         #endregion
 
         #region 方法
+        private void RefreshExcute(object obj)
+        {
+            if (obj is DataGrid)
+            {
+                ExeEntityModel model = (ExeEntityModel)(obj as DataGrid).SelectedItem;
+                //开一线程去更新此程序目录下的文件MD5信息并保存到配置xml里
+                Thread thread = new Thread(RefreshVisionXml);
+                thread.Start(model);
+            }
+        }
+        /// <summary>
+        /// 刷新配置更新文件
+        /// </summary>
+        /// <param name="obj"></param>
+        private void RefreshVisionXml(object obj)
+        {
+            try
+            {
+                ExeEntityModel exeEntity = obj as ExeEntityModel;
+                if (exeEntity == null) return;
+                AppendMsg($"开始更新【{exeEntity.ExeName}】的更新配置文件！");
+                string xmlpath = exeEntity.ExePath + "\\UpLoadVersion.xml";
+                MD5Helper mD5Helper = new MD5Helper();
+                if (!File.Exists(xmlpath))
+                {
+                    AppendMsg($"未检测到【{exeEntity.ExeName}】的更新配置文件，将开始首次创建！");
+                    UpLoadOption loadOption = new UpLoadOption { ExeName = exeEntity.ExeName, ServerIP = mD5Helper.GetLocalIp(), ServerPort = 54321, UpLoadContent = "首次更新", UpLoadFiles = new List<UpLoad>() };
+                    XmlSerializeHelper.Serialize<UpLoadOption>(loadOption, xmlpath);
+                    AppendMsg($"【{exeEntity.ExeName}】的更新配置文件首次创建成功！");
+                }
+                UpLoadOption fileOption = new UpLoadOption();
+                using (FileStream fs = File.Open(xmlpath, FileMode.Open, FileAccess.Read))
+                {
+                    StreamReader sr = new StreamReader(fs);
+                    string text = sr.ReadToEnd();
+                    fileOption = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
+                }
+                //读取目录下所有的文件和子文件夹信息
+                List<string> filePaths = mD5Helper.GetFile(exeEntity.ExePath, new List<string>());
+                AppendMsg($"检测到【{exeEntity.ExeName}】的更新目录下有{filePaths.Count}个文件！");
+                AppendMsg($"开始更新【{exeEntity.ExeName}】的更新配置文件！");
+                List<UpLoad> refLoads = new List<UpLoad>();
+                foreach (var item in filePaths)
+                {
+                    refLoads.Add(new UpLoad { FileName = item.Replace(exeEntity.ExePath+"\\",""), Version = mD5Helper.GetFileMD5(item) });
+                }
+                fileOption.UpLoadFiles = refLoads;
+                XmlSerializeHelper.Serialize<UpLoadOption>(fileOption, xmlpath);
+                AppendMsg($"【{exeEntity.ExeName}】的更新配置文件刷新成功！");
+            }
+            catch (Exception ex)
+            {
+                AppendMsg($"更新配置文件时报错，错误原因：{ex.Message}！");
+            }
+            
+        }
+
         private void AddExeExcute(object obj)
         {
             AddExeDetail addExeDetail = new AddExeDetail();

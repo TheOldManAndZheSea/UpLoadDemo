@@ -28,10 +28,14 @@ namespace UpLoadDemo.XmlModel
         /// <summary>
         /// 程序启动目录
         /// </summary>
-        public string ProgrmStartupDir { get; set; }
+        public string ProgrmStartupExe { get; set; }
         /// <summary>
         /// 更新文件的集合
         /// </summary>
         public List<UpLoad> UpLoadFiles { get; set; }
+        /// <summary>
+        /// 不需要更新的文件集合
+        /// </summary>
+        public List<UpLoad> UnWantedFiles { get; set; }
     }
 }

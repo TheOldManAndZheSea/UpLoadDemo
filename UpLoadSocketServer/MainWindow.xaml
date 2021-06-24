@@ -49,7 +49,10 @@
                                 <DataGridTemplateColumn Header="操作" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ctr:ButtonEx Content="修改" Background="#22A7F0" Command="{Binding DataContext.EditExeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=grd}" Width="50" Height="25" CornerRadius="3"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <ctr:ButtonEx Content="修改" Background="#22A7F0" Command="{Binding DataContext.EditExeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=grd}" Width="50" Height="25" CornerRadius="3"/>
+                                                <ctr:ButtonEx Content="更新配置" Background="#FF9800" Command="{Binding DataContext.RefreshCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=grd}" Margin="10,0,0,0" Width="80" Height="25" CornerRadius="3"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -60,7 +63,7 @@
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10">
                         <TextBlock Text="监听日志：" FontWeight="Bold" FontSize="16" Foreground="#22A7F0"/>
                         <FlowDocumentScrollViewer x:Name="MsgScrollViewer" Height="70" Margin="0,10,0,0" BorderBrush="#22A7F0" Background="#22A7F0" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.ScrollChanged="MsgScrollViewer_ScrollChanged">
                             <FlowDocument FontSize="12"
                                FontFamily="Calibri" 
                                Foreground="#22A7F0" 

@@ -42,7 +42,7 @@ namespace UpLoadDemo
                  Action<object>(CloseExaute));
             BtnUpLoadCommand = new RelayCommand(new Action<object>(UpLoadExcute));
             SocketClient = new SocketClient();
-            SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
+            //SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
             SocketClient.ShowMsg += AppendMsg;
             SocketClient.ShowProValue += AppendBarValue;
         }
@@ -143,6 +143,9 @@ namespace UpLoadDemo
         {
             if (obj is Window)
             {
+                //关闭前保存更新完成的文件信息
+                //更新保存xml
+                XmlSerializeHelper.Serialize<UpLoadOption>(StaticModel.MyUpLoadModel, MyXmlPath);
                 Process.GetCurrentProcess().Kill();
                 (obj as Window).Close();
             }
@@ -187,7 +190,7 @@ namespace UpLoadDemo
             foreach (var item in upLoads)
             {
                 AppendMsg("开始更新文件：" + item.FileName);
-                AppendMsg("开始下载文件：" + item.FileName);
+                
                 if (!DownloadFile(item, uploadvalue))
                 {
                     
@@ -229,18 +232,19 @@ namespace UpLoadDemo
         {
             try
             {
-                SocketClient.IsDown = true;
                 string filename = AppDomain.CurrentDomain.BaseDirectory + upLoad.FileName;
-                string dirpath = Path.GetDirectoryName(filename);
-                if (!System.IO.Directory.Exists(dirpath))
-                {
-                    System.IO.Directory.CreateDirectory(dirpath);
-                }
+                //string dirpath = Path.GetDirectoryName(filename);
+                //if (!System.IO.Directory.Exists(dirpath))
+                //{
+                //    System.IO.Directory.CreateDirectory(dirpath);
+                //}
+                //SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
                 SocketClient.SendMsg(upLoad,proValue,ProgressBarValue);
                 while (SocketClient.IsDown)
                 {
 
                 }
+                //SocketClient.StopListen();
                 return true;
             }
             catch (System.Exception ee)
