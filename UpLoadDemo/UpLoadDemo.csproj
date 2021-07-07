@@ -8,13 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>UpLoadDemo</RootNamespace>
     <AssemblyName>UpLoadDemo</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>E:\项目发布路径\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -24,10 +24,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,7 +49,8 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>2</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>UpLoadDemo.Program</StartupObject>
@@ -54,7 +58,37 @@
   <PropertyGroup>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>651E01F01083770322AD76C8E39898E60861FEEC</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>UpLoadDemo_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RRQMCore, Version=2.0.2.0, Culture=neutral, PublicKeyToken=1691c0176f5d64c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMCore.2.0.2\lib\net45\RRQMCore.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket, Version=5.1.1.0, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.5.1.1\lib\net45\RRQMSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket.FileTransfer, Version=5.1.1.0, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.FileTransfer.5.1.1\lib\net45\RRQMSocket.FileTransfer.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket.RPC, Version=5.1.1.1, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.RPC.5.1.1.1\lib\net45\RRQMSocket.RPC.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
@@ -80,6 +114,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Unitity\JsonSerializer.cs" />
     <Compile Include="Unitity\MD5Helper.cs" />
+    <Compile Include="Unitity\MyFileSocketClient.cs" />
     <Compile Include="Unitity\ReceiveEntityModel.cs" />
     <Compile Include="Unitity\RelayCommand.cs" />
     <Compile Include="Unitity\SocketClient.cs" />
@@ -128,11 +163,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="UpLoadDemo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -142,9 +180,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UpLoadVersion.xml">
+    <Content Include="UpLoadVersion.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="favicon.ico" />

@@ -206,15 +206,15 @@ namespace UpLoadSocketServer
             FileStream fs = File.Open(filepath, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(fs);
             string text = sr.ReadToEnd();
-            SocketServer.XmlEntity = XmlSerializeHelper.DeSerialize<ExeXmlEntity>(text);
-            if (SocketServer.XmlEntity.AllListenExes==null)
+            MySocketServer.XmlEntity = XmlSerializeHelper.DeSerialize<ExeXmlEntity>(text);
+            if (MySocketServer.XmlEntity.AllListenExes==null)
             {
-                SocketServer.XmlEntity.AllListenExes = new List<ExeEntityModel>();
+                MySocketServer.XmlEntity.AllListenExes = new List<ExeEntityModel>();
             }
-            DataList = new ObservableCollection<ExeEntityModel>(SocketServer.XmlEntity.AllListenExes);
+            DataList = new ObservableCollection<ExeEntityModel>(MySocketServer.XmlEntity.AllListenExes);
             //socket开启自动监听
-            SocketServer.ListToMsg += AppendMsg;
-            if(SocketServer.StartListen()) ListenMsg = $"正在监听端口:{SocketServer.XmlEntity.ServerPort}";
+            MySocketServer.ListToMsg += AppendMsg;
+            if(MySocketServer.CreatService()) ListenMsg = $"正在监听端口:{MySocketServer.XmlEntity.ServerPort}";
 
         }
 
@@ -226,7 +226,7 @@ namespace UpLoadSocketServer
         {
             if (obj is Window)
             {
-                SocketServer.StopListen();
+                MySocketServer.CloseService();
                 Process.GetCurrentProcess().Kill();
                 (obj as Window).Close();
             }

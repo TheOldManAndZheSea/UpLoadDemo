@@ -35,7 +35,7 @@ namespace UpLoadDemo.Unitity
 
         public bool IsOk = true;
 
-        public bool IsDown = true;
+        public static bool IsDown = true;
 
         /// <summary>
         /// 存储大文件的大小
@@ -51,7 +51,7 @@ namespace UpLoadDemo.Unitity
         //{
         //    socketSend.BeginReceive(buffer, 0, datacount, SocketFlags.None, AcceptMgs, null);
         //}
-        public void shotlink(string ipaddress, int myport, byte[] sendbytes)
+        public bool shotlink(string ipaddress, int myport, byte[] sendbytes)
         {
             //设定服务器IP地址
             IPAddress ip = IPAddress.Parse(ipaddress);
@@ -62,14 +62,22 @@ namespace UpLoadDemo.Unitity
             }
             catch
             {
-                return;
+                StaticModel.ErroUpLoads.Add(upLoad);
+                IsDown = false;
+                if (ShowMsg != null)
+                {
+                    ShowMsg($"服务器发生错误");
+                }
+                length = 0;
+                return false;
             }
             clientSocket.Send(sendbytes);//向服务器发送数据，需要发送中文则需要使
-            string lengthstr = "";
+            //string lengthstr = "";
             //接受从服务器返回的信息
+            //Thread.Sleep(200);
             while (true)
             {
-                byte[] recvBytes = new byte[1024 * 1024];
+                byte[] recvBytes = new byte[1024 * 1024*5];
                 int bytes;
                 bytes = clientSocket.Receive(recvBytes, recvBytes.Length, 0);    //从服务器端接受返回信息 
                 int r = bytes;
@@ -112,7 +120,7 @@ namespace UpLoadDemo.Unitity
                                     {
                                         ShowMsg("开始下载文件：" + upLoad.FileName);
                                     }
-                                    lengthstr = strMsg;
+                                    //lengthstr = strMsg;
                                     length = int.Parse(socketmodel.socketdata.ToString());
                                 }
                                 if (socketmodel.type == "0")
@@ -133,7 +141,7 @@ namespace UpLoadDemo.Unitity
                         }
                         if (length > 0)  //判断大文件是否已经保存完
                         {
-                            if (strMsg == lengthstr) continue;
+                            //if (strMsg == lengthstr) continue;
                             //保存接收的文件
                             if (!Directory.Exists(Path.GetDirectoryName(filePath)))     // 返回bool类型，存在返回true，不存在返回false
                             {
@@ -181,6 +189,7 @@ namespace UpLoadDemo.Unitity
                 {
                     if (!ex.Message.Contains("你的主机中的软件中止了一个已建立的连接"))
                     {
+                        length = 0;
                         IsDown = false;
                         if (ShowMsg != null)
                         {
@@ -193,6 +202,7 @@ namespace UpLoadDemo.Unitity
 
             //每次完成通信后，关闭连接并释放资源
             clientSocket.Close();
+            return false;
             //解析本次收到的数据
             //AnalysisBytes(bytes, recvBytes);
 
@@ -347,18 +357,18 @@ namespace UpLoadDemo.Unitity
         /// <summary>
         /// 发送数据
         /// </summary>
-        public void SendMsg(string text)
+        public bool SendMsg(string text)
         {
             try
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(text);
                 //将了标识字符的字节数组传递给客户端
                 //socketSend.Send(buffer);
-                shotlink(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort, buffer);
+                return shotlink(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort, buffer);
             }
-            catch { }
+            catch { return false; }
         }
-        public void SendMsg(UpLoad text, double proValue = 0, double probar = 0)
+        public bool SendMsg(UpLoad text, double proValue = 0, double probar = 0)
         {
             try
             {
@@ -373,9 +383,9 @@ namespace UpLoadDemo.Unitity
                 upLoad = text;
                 byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.ObjectToJSON(new ReceiveEntityModel { method = "get_file", data = new { FileName = upLoad.FileName, ExeName = StaticModel.MyUpLoadModel.ExeName } }));
                 //将了标识字符的字节数组传递给客户端
-                shotlink(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort,buffer);
+                return shotlink(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort,buffer);
             }
-            catch { }
+            catch { return false; }
         }
 
         /// <summary>

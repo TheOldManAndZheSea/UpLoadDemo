@@ -18,3 +18,11 @@ E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.pdb
 E:\Github\UpLoadDemo\UploadCommon\bin\Debug\log4net.dll
 E:\Github\UpLoadDemo\UploadCommon\bin\Debug\log4net.xml
 E:\Github\UpLoadDemo\UploadCommon\obj\Debug\UploadCommon.csprojAssemblyReference.cache
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMCore.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.FileTransfer.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.RPC.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMCore.xml
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.xml
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.FileTransfer.xml
+E:\Github\UpLoadDemo\UploadCommon\bin\Debug\RRQMSocket.RPC.xml

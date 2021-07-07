@@ -1,0 +1,9 @@
+2021-07-07 14:14:24,763  [1号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:27:16,219  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:28:41,166  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:29:10,845  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:30:38,761  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:31:35,279  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:48:03,816  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:51:25,423  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-07 15:52:38,452  [0-Num Handler]  INFO   {"method":"get_ver","data":"mes"}

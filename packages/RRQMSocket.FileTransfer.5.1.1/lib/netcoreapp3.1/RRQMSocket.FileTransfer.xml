@@ -1,0 +1,880 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RRQMSocket.FileTransfer</name>
+    </assembly>
+    <members>
+        <member name="T:RRQMSocket.FileTransfer.FileBaseTool">
+            <summary>
+            文件工具类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileBaseTool.BlockCount">
+            <summary>
+            分块数量
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileBlock">
+            <summary>
+            文件块
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileBlock.Index">
+            <summary>
+            文件快索引
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileBlock.StreamPosition">
+            <summary>
+            文件流位置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileBlock.FileHash">
+            <summary>
+            文件哈希值
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileInfo">
+            <summary>
+            文件信息基类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileInfo.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileInfo.FileLength">
+            <summary>
+            文件大小
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileInfo.FilePath">
+            <summary>
+            文件路径
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileInfo.FileHash">
+            <summary>
+            文件哈希值
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileInfo.Flag">
+            <summary>
+            文件标志
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileInfo.Copy(RRQMSocket.FileTransfer.FileInfo)">
+            <summary>
+            复制
+            </summary>
+            <param name="fileInfo"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileProgressBlock">
+            <summary>
+            文件进度块
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileProgressBlock.UnitLength">
+            <summary>
+            文件块长度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileProgressBlock.Finished">
+            <summary>
+            完成
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.PBCollectionTemp">
+            <summary>
+            临时序列化
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.PBCollectionTemp.UrlFileInfo">
+            <summary>
+            文件信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.PBCollectionTemp.Blocks">
+            <summary>
+            块集合
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.PBCollectionTemp.GetFromProgressBlockCollection(RRQMSocket.FileTransfer.ProgressBlockCollection)">
+            <summary>
+            从文件块转换
+            </summary>
+            <param name="progressBlocks"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.PBCollectionTemp.ToPBCollection">
+            <summary>
+            转换为ProgressBlockCollection
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.ProgressBlockCollection">
+            <summary>
+            文件进度块集合
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.ProgressBlockCollection.UrlFileInfo">
+            <summary>
+            文件信息
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.ProgressBlockCollection.Save(System.String)">
+            <summary>
+            保存
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.ProgressBlockCollection.Read(System.String)">
+            <summary>
+            读取
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.ReadOnlyList`1">
+            <summary>
+            只读
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.ReadOnlyList`1.GetEnumerator">
+            <summary>
+            返回迭代器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.ReadOnlyList`1.Item(System.Int32)">
+            <summary>
+            获取对象
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.Speed">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferCollection">
+            <summary>
+            传输集合
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferCollection.GetEnumerator">
+            <summary>
+            返回一个循环访问集合的枚举器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferFileHashDictionary">
+            <summary>
+            传输文件Hash暂存字典
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileHashDictionary.MaxCount">
+            <summary>
+            字典存储文件Hash的最大数量，默认为5000
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.AddFile(System.String)">
+            <summary>
+            添加文件信息
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.AddFile(RRQMSocket.FileTransfer.FileInfo)">
+            <summary>
+            添加文件信息
+            </summary>
+            <param name="fileInfo"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.ClearDictionary">
+            <summary>
+            清除全部
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.Remove(System.String)">
+            <summary>
+            移除
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.GetFileInfo(System.String,RRQMSocket.FileTransfer.FileInfo@,System.Boolean)">
+            <summary>
+            获取文件信息
+            </summary>
+            <param name="filePath"></param>
+            <param name="fileInfo"></param>
+            <param name="breakpointResume"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.TransferFileHashDictionary.GetFileInfoFromHash(System.String,RRQMSocket.FileTransfer.FileInfo@)">
+            <summary>
+            通过FileHash获取文件信息
+            </summary>
+            <param name="fileHash"></param>
+            <param name="fileInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.UrlFileInfo">
+            <summary>
+            文件信息类
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.UrlFileInfo.CreatDownload(System.String,System.Boolean)">
+            <summary>
+            生成下载请求必要信息
+            </summary>
+            <param name="path"></param>
+            <param name="restart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.UrlFileInfo.CreatUpload(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            生成上传请求必要信息
+            </summary>
+            <param name="path"></param>
+            <param name="breakpointResume"></param>
+            <param name="restart"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.UrlFileInfo.Restart">
+            <summary>
+            重新开始
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.UrlFileInfo.Timeout">
+            <summary>
+            超时时间，默认30秒
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.UrlFileInfo.TransferType">
+            <summary>
+            请求传输类型
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.UrlFileInfo.SaveFolder">
+            <summary>
+            存放目录
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.UrlFileInfo.Equals(RRQMSocket.FileTransfer.UrlFileInfo)">
+            <summary>
+            比较
+            </summary>
+            <param name="fileInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileClientConfig">
+            <summary>
+            文件客户端配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClientConfig.ReceiveDirectory">
+            <summary>
+            默认接收文件的存放目录
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileClientConfig.ReceiveDirectoryProperty">
+            <summary>
+            默认接收文件的存放目录, 所需类型<see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClientConfig.Timeout">
+            <summary>
+            单次请求超时时间 min=5,max=60 单位：秒
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileClientConfig.TimeoutProperty">
+            <summary>
+            单次请求超时时间 min=5,max=60 单位：秒, 所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileServiceConfig">
+            <summary>
+            文件服务器配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileServiceConfig.BreakpointResume">
+            <summary>
+            是否支持断点续传
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileServiceConfig.BreakpointResumeProperty">
+            <summary>
+            是否支持断点续传, 所需类型<see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileServiceConfig.MaxDownloadSpeed">
+            <summary>
+            最大下载速度
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileServiceConfig.MaxDownloadSpeedProperty">
+            <summary>
+            最大下载速度, 所需类型<see cref="T:System.Int64"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileServiceConfig.MaxUploadSpeed">
+            <summary>
+            最大上传速度
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileServiceConfig.MaxUploadSpeedProperty">
+            <summary>
+            最大上传速度, 所需类型<see cref="T:System.Int64"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.RRQMFileOperationEventHandler">
+            <summary>
+            传输文件操作处理
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.RRQMTransferFileMessageEventHandler">
+            <summary>
+            传输文件消息
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferStatus">
+            <summary>
+            传输类型
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferStatus.None">
+            <summary>
+            无下载
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferStatus.Upload">
+            <summary>
+            上传
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferStatus.Download">
+            <summary>
+            下载
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferStatus.PauseDownload">
+            <summary>
+            暂停下载状态
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferStatus.PauseUpload">
+            <summary>
+            暂停上传状态
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferType">
+            <summary>
+            传输类型
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferType.Upload">
+            <summary>
+            上传
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.TransferType.Download">
+            <summary>
+            下载
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileEventArgs">
+            <summary>
+            文件事件
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileEventArgs.FileInfo">
+            <summary>
+            文件信息
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileOperationEventArgs">
+            <summary>
+            操作文件事件类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileOperationEventArgs.IsPermitOperation">
+            <summary>
+            是否允许操作
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FilePathEventArgs">
+            <summary>
+            文件路径事件类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FilePathEventArgs.TargetPath">
+            <summary>
+            获取或设置目标文件的最终路径，包含文件名及文件扩展名
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferFileArgs">
+            <summary>
+            传输文件
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileArgs.StreamPosition">
+            <summary>
+            已接收的流位置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileArgs.FileInfo">
+            <summary>
+            接收的文件信息（不要手动更改里面任何内容）
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileArgs.TransferProgressValue">
+            <summary>
+            传输文件进度
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.TransferFileMessageArgs">
+            <summary>
+            文件传输消息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileMessageArgs.Message">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.TransferFileMessageArgs.TransferType">
+            <summary>
+            传输类型
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.RRQMTransferErrorException">
+            <summary>
+            传输错误
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferErrorException.#ctor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferErrorException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferErrorException.#ctor(System.String,System.Exception)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+             <param name="inner"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferErrorException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <param name="context"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.RRQMTransferingException">
+            <summary>
+            没有传输任务异常
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferingException.#ctor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferingException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferingException.#ctor(System.String,System.Exception)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+             <param name="inner"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.RRQMTransferingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <param name="context"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.IFileClient">
+            <summary>
+            文件终端接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileClient.TransferFileInfo">
+            <summary>
+            获取当前传输文件信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileClient.TransferProgress">
+            <summary>
+            获取当前传输进度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileClient.TransferSpeed">
+            <summary>
+            获取当前传输速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileClient.TransferStatus">
+            <summary>
+            获取当前传输状态
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileClient.FileBlocks">
+            <summary>
+            获取当前传输文件包
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.IFileService">
+            <summary>
+            服务器接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileService.MaxDownloadSpeed">
+            <summary>
+            最大下载速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.IFileService.MaxUploadSpeed">
+            <summary>
+            最大上传速度
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileClient">
+            <summary>
+            通讯客户端主类
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.#ctor">
+            <summary>
+            无参数构造函数
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileClient.BeforeFileTransfer">
+            <summary>
+            传输文件之前
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileClient.FileTransferCollectionChanged">
+            <summary>
+            当文件传输集合更改时
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileClient.FinishedFileTransfer">
+            <summary>
+            当文件传输完成时
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileClient.TransferFileError">
+            <summary>
+            传输文件错误
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.BreakpointResume">
+            <summary>
+            获取支持短点续传状态，
+            该属性与服务器同步
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.FileBlocks">
+            <summary>
+            获取当前传输文件包
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.FileTransferCollection">
+            <summary>
+            获取文件传输集合
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.ReceiveDirectory">
+            <summary>
+            默认接收文件的存放目录
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.Timeout">
+            <summary>
+            单次请求超时时间 min=5,max=60 单位：秒
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.TransferFileInfo">
+            <summary>
+            获取当前传输文件信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.TransferProgress">
+            <summary>
+            获取当前传输进度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.TransferSpeed">
+            <summary>
+            获取当前传输速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileClient.TransferStatus">
+            <summary>
+            获取当前传输状态
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.RequestFile(RRQMSocket.FileTransfer.UrlFileInfo,System.String,System.String,RRQMSocket.FileTransfer.RRQMTransferFileMessageEventHandler,RRQMSocket.FileTransfer.RRQMTransferFileMessageEventHandler)">
+            <summary>
+            请求下载文件
+            </summary>
+            <param name="urlFileInfo"></param>
+            <param name="host">IP及端口</param>
+            <param name="verifyToken">验证令箭</param>
+            <param name="finishedCallBack">完成时回调</param>
+            <param name="errorCallBack"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.CancelTransfer(RRQMSocket.FileTransfer.UrlFileInfo)">
+            <summary>
+            取消指定传输任务
+            </summary>
+            <param name="fileInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.Connect">
+            <summary>
+            连接服务器
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:RRQMSocket.RRQMTimeoutException"></exception>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.PauseTransfer">
+            <summary>
+            暂停传输
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.RequestTransfer(RRQMSocket.FileTransfer.UrlFileInfo)">
+            <summary>
+            请求传输文件
+            </summary>
+            <param name="fileInfo"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.ResumeTransfer">
+            <summary>
+            恢复传输
+            </summary>
+            <returns>是否有任务成功继续</returns>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.StopAllTransfer">
+            <summary>
+            终止所有传输
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.StopThisTransfer">
+             <summary>
+             终止当前传输
+             </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.RPCHandleDefaultData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            密封方法
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.FileClientHandleDefaultData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            文件客户端处理其他协议
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.LoadConfig(RRQMSocket.TcpClientConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="clientConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.DownloadFile(RRQMSocket.FileTransfer.UrlFileInfo)">
+            <summary>
+            请求下载文件
+            </summary>
+            <param name="urlFileInfo"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.FileTransfer.RRQMTransferingException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileClient.UploadFile(RRQMSocket.FileTransfer.UrlFileInfo)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="urlFileInfo"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.FileTransfer.RRQMTransferingException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileService">
+            <summary>
+            通讯服务端主类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileService.BreakpointResume">
+            <summary>
+            是否支持断点续传
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileService.DownloadSpeed">
+            <summary>
+            获取下载速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileService.MaxDownloadSpeed">
+            <summary>
+            最大下载速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileService.MaxUploadSpeed">
+            <summary>
+            最大上传速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileService.UploadSpeed">
+            <summary>
+            获取上传速度
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileService.BeforeFileTransfer">
+            <summary>
+            传输文件之前
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.FileTransfer.FileService.FinishedFileTransfer">
+            <summary>
+            当文件传输完成时
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileService.LoadConfig(RRQMSocket.ServerConfig)">
+            <summary>
+            载入配置
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileService.OnCreateSocketCliect(RRQMSocket.FileTransfer.FileSocketClient,RRQMSocket.CreateOption)">
+            <summary>
+            创建完成FileSocketClient
+            </summary>
+            <param name="socketClient"></param>
+            <param name="creatOption"></param>
+        </member>
+        <member name="T:RRQMSocket.FileTransfer.FileSocketClient">
+            <summary>
+            已接收的客户端
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.FileBlocks">
+            <summary>
+            获取当前传输文件包
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.MaxDownloadSpeed">
+            <summary>
+            每秒最大下载速度（Byte）,不可小于1024
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.MaxUploadSpeed">
+            <summary>
+            每秒最大上传速度（Byte）,不可小于1024
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.TransferFileInfo">
+            <summary>
+            获取当前传输文件信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.TransferProgress">
+            <summary>
+            获取当前传输进度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.TransferSpeed">
+            <summary>
+            获取当前传输速度
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FileTransfer.FileSocketClient.TransferStatus">
+            <summary>
+            获取当前传输状态
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileSocketClient.BeforeFileTransfer">
+            <summary>
+            传输文件之前
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FileTransfer.FileSocketClient.FinishedFileTransfer">
+            <summary>
+            当文件传输完成时
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.Recreate">
+            <summary>
+             重置
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.RPCHandleDefaultData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            封装协议
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.FileSocketClientHandleDefaultData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            文件辅助类处理其他协议
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.OnBufferLengthChanged">
+            <summary>
+            当BufferLength改变值的时候
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.WaitReceive">
+            <summary>
+            继承
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FileTransfer.FileSocketClient.GetNowTick">
+            <summary>
+            获取当前时间帧
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -14,7 +14,7 @@ namespace UploadCommon.Unitity
 {
     public class Conn
     { //定义数据最大长度
-        public const int data = 1024;
+        public const int data = 1024*1024*4;
         //Socket
         public Socket socket;
         //是否使用
@@ -297,7 +297,7 @@ namespace UploadCommon.Unitity
                     socketSend.Send(sendbytes);
                     Logger.Info("长度："+length);
                     //2. 第二步：每次发送一个4KB的包，如果文件较大，则会拆分为多个包
-                    byte[] buffer = new byte[1024 * 1024];
+                    byte[] buffer = new byte[1024 * 1024*4];
                     long send = 0; //发送的字节数                   
                     while (true)  //大文件断点多次传输
                     {

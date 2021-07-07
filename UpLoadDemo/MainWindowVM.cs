@@ -19,7 +19,7 @@ namespace UpLoadDemo
 
         private string MyXmlPath = AppDomain.CurrentDomain.BaseDirectory + "UpLoadVersion.xml";
 
-        private SocketClient SocketClient = new SocketClient();
+        //private SocketClient SocketClient = new SocketClient();
         public MainWindowVM()
         {
             //读取更新配置文件
@@ -41,10 +41,12 @@ namespace UpLoadDemo
             CloseWinCommand = new RelayCommand(new
                  Action<object>(CloseExaute));
             BtnUpLoadCommand = new RelayCommand(new Action<object>(UpLoadExcute));
-            SocketClient = new SocketClient();
+            //SocketClient = new SocketClient();
             //SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
-            SocketClient.ShowMsg += AppendMsg;
-            SocketClient.ShowProValue += AppendBarValue;
+            //SocketClient.ShowMsg += AppendMsg;
+            //SocketClient.ShowProValue += AppendBarValue;
+            MyFileSocketClient.ShowMsg += AppendMsg;
+            MyFileSocketClient.ShowProValue += AppendBarValue;
         }
 
         #region 字段
@@ -156,7 +158,8 @@ namespace UpLoadDemo
         /// <param name="obj"></param>
         private void UpLoadExcute(object obj)
         {
-            Thread thread = new Thread(() => {
+            Thread thread = new Thread(() =>
+            {
                 if (obj != null && obj is System.Windows.Controls.FlowDocumentScrollViewer)
                 {
                     var uartDataFlowDocument = obj as System.Windows.Controls.FlowDocumentScrollViewer;
@@ -190,36 +193,28 @@ namespace UpLoadDemo
             foreach (var item in upLoads)
             {
                 AppendMsg("开始更新文件：" + item.FileName);
-                
+
                 if (!DownloadFile(item, uploadvalue))
                 {
-                    
+                    //如果是失败 从新连接服务器
+                    MyFileSocketClient.StopListen();
+                    MyFileSocketClient.StartListen();
                 }
             }
             ProgressBarValue = 100;
             //更新保存xml
             XmlSerializeHelper.Serialize<UpLoadOption>(StaticModel.MyUpLoadModel, MyXmlPath);
-            if (StaticModel.ErroUpLoads.Count == 0)
+            AppendMsg("文件全部下载成功！");
+            AppendMsg("正在重新启动程序...");
+            Thread.Sleep(2000);
+            Process p = new Process();
+            p.StartInfo.FileName = System.AppDomain.CurrentDomain.BaseDirectory + "UpLoadDemo.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.Start();
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                AppendMsg("文件全部下载成功！");
-                AppendMsg("正在重新启动程序...");
-                Thread.Sleep(2000);
-                Process p = new Process();
-                p.StartInfo.FileName = System.AppDomain.CurrentDomain.BaseDirectory + "UpLoadDemo.exe";
-                p.StartInfo.UseShellExecute = false;
-                p.Start();
-                Application.Current.Dispatcher.Invoke(new Action(() => {
-                    Application.Current.Shutdown();
-                }));
-            }
-            else
-            {
-                BtnName = "更新失败";
-                string msg = "部分文件下载失败：";
-                StaticModel.ErroUpLoads.ForEach(s => msg += s.FileName + ",");
-                AppendMsg(msg+"\r\n请联系技术人员进行查看！");
-                BtnIsEnabled = true;
-            }
+                Application.Current.Shutdown();
+            }));
 
         }
         /// <summary>
@@ -239,10 +234,18 @@ namespace UpLoadDemo
                 //    System.IO.Directory.CreateDirectory(dirpath);
                 //}
                 //SocketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
-                SocketClient.SendMsg(upLoad,proValue,ProgressBarValue);
-                while (SocketClient.IsDown)
+                MyFileSocketClient.IsDown = true;
+                MyFileSocketClient.SendToFile(upLoad, proValue, ProgressBarValue);
+                int kadun = 0;
+                while (MyFileSocketClient.IsDown)
                 {
-
+                    //持续卡顿5秒则退出
+                    Thread.Sleep(100);
+                    kadun += 100;
+                    if (kadun == 5000)
+                    {
+                        return false;
+                    }
                 }
                 //SocketClient.StopListen();
                 return true;

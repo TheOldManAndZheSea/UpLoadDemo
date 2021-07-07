@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UpLoadOption xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <UpLoadContent>初次测试</UpLoadContent>
-  <ServerIP>10.1.3.233</ServerIP>
+  <ServerIP>192.168.0.64</ServerIP>
   <ServerPort>54321</ServerPort>
   <ExeName>mes</ExeName>
   <ProgrmStartupExe>SwordMES.exe</ProgrmStartupExe>

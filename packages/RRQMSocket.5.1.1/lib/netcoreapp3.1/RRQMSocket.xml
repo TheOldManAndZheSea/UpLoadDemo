@@ -1,0 +1,2893 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RRQMSocket</name>
+    </assembly>
+    <members>
+        <member name="T:RRQMSocket.BaseSocket">
+            <summary>
+            通讯基类
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.BaseSocket.locker">
+            <summary>
+            锁
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.BaseSocket.disposable">
+            <summary>
+            判断是否已释放资源
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.BaseSocket.bufferLength">
+            <summary>
+            数据交互缓存池限制
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.BaseSocket.BufferLength">
+            <summary>
+            数据交互缓存池限制
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.BaseSocket.SetBufferLength(System.Int32)">
+            <summary>
+            数据交互缓存池限制，Min:1k Byte，Max:1Mb Byte
+            </summary>
+            <param name="bufferLength"></param>
+        </member>
+        <member name="P:RRQMSocket.BaseSocket.Logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.BaseSocket.OnBufferLengthChanged">
+            <summary>
+            当BufferLength改变值的时候
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.BaseSocket.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.AsyncByte">
+            <summary>
+            异步字节
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.AsyncResult">
+            <summary>
+            异步执行结果
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.AsyncResult.Status">
+            <summary>
+            异步状态
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.AsyncResult.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.AsyncSender.ProcessSend(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>
+            发送完成时处理函数
+            </summary>
+            <param name="e">与发送完成操作相关联的SocketAsyncEventArg对象</param>
+        </member>
+        <member name="T:RRQMSocket.CreateOption">
+            <summary>
+            创建设置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.CreateOption.NewCreate">
+            <summary>
+            判断该T是否为新建对象，
+            true：首次创建。false：从对象池获得
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.CreateOption.ID">
+            <summary>
+            获取或设置该T的ID
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.IPHost">
+            <summary>
+            IP解析映射
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IPHost.#ctor(System.String)">
+            <summary>
+            从字符串获取ip和port
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IPHost.#ctor(System.Net.IPAddress,System.Int32)">
+            <summary>
+            从IPAddress和端口号
+            </summary>
+            <param name="iPAddress"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:RRQMSocket.IPHost.#ctor(System.Int32)">
+            <summary>
+            从端口号创建
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="P:RRQMSocket.IPHost.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IPHost.Port">
+            <summary>
+            端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IPHost.AddressFamily">
+            <summary>
+            寻址方案
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IPHost.EndPoint">
+            <summary>
+            终结点
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IPHost.ToString">
+            <summary>
+            返回对象字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RRQMSocket.ProcotolHelper">
+            <summary>
+            RRQM协议助手
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProcotolHelper.#ctor(RRQMSocket.IClient)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:RRQMSocket.ProcotolHelper.SocketSend(System.Int16)">
+            <summary>
+            发送简单协议
+            </summary>
+            <param name="procotol"></param>
+        </member>
+        <member name="M:RRQMSocket.ProcotolHelper.SocketSend(System.Int16,System.Byte[])">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataBuffer"></param>
+        </member>
+        <member name="M:RRQMSocket.ProcotolHelper.SocketSend(System.Int16,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送协议流
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataByteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.ProcotolHelper.SocketSend(System.Int16,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataBuffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="reserved"></param>
+        </member>
+        <member name="T:RRQMSocket.ClientConfig">
+            <summary>
+            客户端配置
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ProtocolClientConfig">
+            <summary>
+            协议客户端配置
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ProtocolServerConfig">
+            <summary>
+            协议服务配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ProtocolServerConfig.CanResetID">
+            <summary>
+            是否能重新设置ID
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ProtocolServerConfig.CanResetIDProperty">
+            <summary>
+            是否能重新设置ID，所需类型<see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.RRQMConfig">
+            <summary>
+            配置文件基类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.RRQMConfig.Logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.RRQMConfig.LoggerProperty">
+            <summary>
+            日志记录器依赖属性，所需类型<see cref="T:RRQMCore.Log.ILog"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.RRQMConfig.BytePoolMaxSize">
+            <summary>
+            内存池最大尺寸
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.RRQMConfig.BytePoolMaxSizeProperty">
+            <summary>
+            内存池最大尺寸依赖属性，所需类型<see cref="T:System.Int64"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.RRQMConfig.BytePoolMaxBlockSize">
+            <summary>
+            内存池块最大尺寸
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.RRQMConfig.BytePoolMaxBlockSizeProperty">
+            <summary>
+            内存池块最大尺寸，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.RRQMConfig.BufferLength">
+            <summary>
+            缓存池容量
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.RRQMConfig.BufferLengthProperty">
+            <summary>
+            缓存池容量，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ServerConfig">
+            <summary>
+            服务器配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ServerConfig.ThreadCount">
+            <summary>
+            多线程数量
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerConfig.ThreadCountProperty">
+            <summary>
+            多线程数量依赖属性，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ServerConfig.ListenIPHosts">
+            <summary>
+            监听IP和端口号组
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerConfig.ListenIPHostsProperty">
+            <summary>
+            IP和端口号依赖属性，所需类型<see cref="T:RRQMSocket.IPHost"/>数组
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ServerConfig.ServerName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerConfig.ServerNameProperty">
+            <summary>
+            名称，所需类型<see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.TcpClientConfig">
+            <summary>
+            TcpClient配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.DataHandlingAdapter">
+            <summary>
+            数据处理适配器
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.DataHandlingAdapterProperty">
+            <summary>
+            数据处理适配器，所需类型<see cref="T:RRQMSocket.DataHandlingAdapter"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.RemoteIPHost">
+            <summary>
+            远程IPHost
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.RemoteIPHostProperty">
+            <summary>
+            远程IPHost，所需类型<see cref="T:RRQMSocket.IPHost"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.BytePool">
+            <summary>
+            内存池实例
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.BytePoolProperty">
+            <summary>
+            内存池实例，所需类型<see cref="T:RRQMCore.ByteManager.BytePool"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.OnlySend">
+            <summary>
+            仅发送，即不开启接收线程，
+            同时不会感知断开操作。
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.OnlySendProperty">
+            <summary>
+            仅发送，即不开启接收线程，
+            同时不会感知断开操作，所需类型<see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.SeparateThreadSend">
+            <summary>
+            在异步发送时，使用独立线程发送
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.SeparateThreadSendProperty">
+            <summary>
+            在异步发送时，使用独立线程发送，所需类型<see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClientConfig.SeparateThreadSendBufferLength">
+            <summary>
+            独立线程发送缓存区
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClientConfig.SeparateThreadSendBufferLengthProperty">
+            <summary>
+            独立线程发送缓存区，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.TcpServerConfig">
+            <summary>
+            Tcp服务配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpServerConfig.Backlog">
+            <summary>
+            挂起连接队列的最大长度。默认为100
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpServerConfig.BacklogProperty">
+            <summary>
+            挂起连接队列的最大长度，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpServerConfig.MaxCount">
+            <summary>
+            最大可连接数，默认为10000
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpServerConfig.MaxCountProperty">
+            <summary>
+            最大可连接数，默认为10000，所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpServerConfig.ClearInterval">
+            <summary>
+            获取或设置清理无数据交互的SocketClient，默认60。如果不想清除，可使用-1。
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpServerConfig.ClearIntervalProperty">
+            <summary>
+            获取或设置清理无数据交互的SocketClient，默认60。如果不想清除，可使用-1。
+            所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpServerConfig.ClearType">
+            <summary>
+            统计类型，可叠加位域
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpServerConfig.ClearTypeProperty">
+            <summary>
+            统计类型，可叠加位域
+            所需类型<see cref="P:RRQMSocket.TcpServerConfig.ClearType"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.TokenClientConfig">
+            <summary>
+            TokenClient配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenClientConfig.VerifyToken">
+            <summary>
+            连接令箭,当为null或空时，重置为默认值“rrqm”
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TokenClientConfig.VerifyTokenProperty">
+            <summary>
+            连接令箭,当为null或空时，重置为默认值“rrqm”, 所需类型<see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenClientConfig.VerifyTimeout">
+            <summary>
+            验证超时时间,默认为3秒；
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TokenClientConfig.VerifyTimeoutProperty">
+            <summary>
+            验证超时时间,默认为3秒, 所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.TokenServerConfig">
+            <summary>
+            TokenTcp服务配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenServerConfig.VerifyToken">
+            <summary>
+            连接令箭,当为null或空时，重置为默认值“rrqm”
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TokenServerConfig.VerifyTokenProperty">
+            <summary>
+            连接令箭,当为null或空时，重置为默认值“rrqm”, 所需类型<see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenServerConfig.VerifyTimeout">
+            <summary>
+            验证超时时间,默认为3秒；
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TokenServerConfig.VerifyTimeoutProperty">
+            <summary>
+            验证超时时间,默认为3秒, 所需类型<see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.UdpSessionConfig">
+            <summary>
+            UDP服务器配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSessionConfig.DefaultRemotePoint">
+            <summary>
+            默认远程节点
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.UdpSessionConfig.DefaultRemotePointProperty">
+            <summary>
+            默认远程节点, 所需类型<see cref="T:System.Net.EndPoint"/>
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSessionConfig.UseBind">
+            <summary>
+            使用绑定
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.UdpSessionConfig.UseBindProperty">
+            <summary>
+            使用绑定, 所需类型<see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.DataAdapterTester">
+            <summary>
+            数据处理适配器测试
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.DataAdapterTester.CreateTester(RRQMSocket.DataHandlingAdapter,System.Action{RRQMCore.ByteManager.ByteBlock,System.Object},RRQMCore.Log.ILog,System.Int32)">
+            <summary>
+            获取测试器
+            </summary>
+            <param name="adapter"></param>
+            <param name="receivedCallBack"></param>
+            <param name="logger"></param>
+            <param name="bufferLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.DataAdapterTester.SimSend(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            模拟发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.DataAdapterTester.SimSend(System.Byte[])">
+            <summary>
+            模拟发送
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:RRQMSocket.DataAdapterTester.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.DataHandlingAdapter">
+            <summary>
+            数据处理适配器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.DataHandlingAdapter.BytePool">
+            <summary>
+            内存池
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.DataHandlingAdapter.Logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.DataHandlingAdapter.ReceivedCallBack">
+            <summary>
+            当接收数据处理完成后，回调该函数执行接收
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.DataHandlingAdapter.SendCallBack">
+            <summary>
+            当接收数据处理完成后，回调该函数执行发送
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.DataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            当接收到数据后预先处理数据,然后调用<see cref="M:RRQMSocket.DataHandlingAdapter.GoReceived(RRQMCore.ByteManager.ByteBlock,System.Object)"/>处理数据
+            </summary>
+            <param name="byteBlock">数据流</param>
+        </member>
+        <member name="M:RRQMSocket.DataHandlingAdapter.GoReceived(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            处理已经经过预先处理后的数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.DataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            当发送数据前预先处理数据
+            </summary>
+            <param name="buffer">数据</param>
+            <param name="offset">偏移</param>
+            <param name="length">长度</param>
+            <param name="isAsync">是否使用IOCP发送</param>
+        </member>
+        <member name="M:RRQMSocket.DataHandlingAdapter.GoSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            发送已经经过预先处理后的数据
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="isAsync">是否使用IOCP发送</param>
+        </member>
+        <member name="T:RRQMSocket.FixedHeaderDataHandlingAdapter">
+            <summary>
+            固定包头数据处理器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FixedHeaderDataHandlingAdapter.MaxSizeHeader">
+            <summary>
+            获取或设置包头的最大值（默认为10Mb）
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FixedHeaderDataHandlingAdapter.MinSizeHeader">
+            <summary>
+            获取或设置包头的最小值（默认为0）
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.FixedHeaderDataHandlingAdapter.FixedHeaderType">
+            <summary>
+            设置包头类型，默认为int
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderDataHandlingAdapter.tempByteBlock">
+            <summary>
+            临时包
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderDataHandlingAdapter.surPlusLength">
+            <summary>
+            包剩余长度
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderDataHandlingAdapter.agreementTempBytes">
+            <summary>
+            协议临时包
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FixedHeaderDataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            当接收到数据时处理数据
+            </summary>
+            <param name="byteBlock">数据流</param>
+        </member>
+        <member name="M:RRQMSocket.FixedHeaderDataHandlingAdapter.SeamPackage(System.Byte[],System.Int32)">
+            <summary>
+            缝合包
+            </summary>
+            <param name="buffer"></param>
+            <param name="r"></param>
+        </member>
+        <member name="M:RRQMSocket.FixedHeaderDataHandlingAdapter.SplitPackage(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            分解包
+            </summary>
+            <param name="dataBuffer"></param>
+            <param name="index"></param>
+            <param name="r"></param>
+        </member>
+        <member name="M:RRQMSocket.FixedHeaderDataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            当发送数据前处理数据
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="isAsync"></param>
+        </member>
+        <member name="T:RRQMSocket.FixedSizeDataHandlingAdapter">
+            <summary>
+            固定长度数据处理器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FixedSizeDataHandlingAdapter.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="fixedSize">数据包的长度</param>
+        </member>
+        <member name="P:RRQMSocket.FixedSizeDataHandlingAdapter.FixedSize">
+            <summary>
+            获取已设置的数据包的长度
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedSizeDataHandlingAdapter.tempByteBlock">
+            <summary>
+            临时包
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedSizeDataHandlingAdapter.surPlusLength">
+            <summary>
+            包剩余长度
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.FixedSizeDataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            预处理
+            </summary>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.FixedSizeDataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            预处理
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="isAsync"></param>
+        </member>
+        <member name="T:RRQMSocket.JsonStringDataHandlingAdapter">
+            <summary>
+            Json字符串数据处理解析器（该解析器由网友"明月"提供）
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.JsonStringDataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            预解析
+            </summary>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.JsonStringDataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            预发送封装
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="isAsync"></param>
+        </member>
+        <member name="T:RRQMSocket.NormalDataHandlingAdapter">
+            <summary>
+            普通数据处理器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.NormalDataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            当接收到数据时处理数据
+            </summary>
+            <param name="byteBlock">数据流</param>
+        </member>
+        <member name="M:RRQMSocket.NormalDataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            当发送数据前处理数据
+            </summary>
+            <param name="buffer">数据</param>
+            <param name="offset">偏移</param>
+            <param name="length">长度</param>
+            <param name="isAsync"></param>
+        </member>
+        <member name="T:RRQMSocket.TerminatorDataHandlingAdapter">
+            <summary>
+            终止字符处理器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TerminatorDataHandlingAdapter.#ctor(System.Int32,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="maxSize"></param>
+            <param name="terminator"></param>
+        </member>
+        <member name="M:RRQMSocket.TerminatorDataHandlingAdapter.#ctor(System.Int32,System.String,System.Text.Encoding)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="maxSize"></param>
+            <param name="terminator"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:RRQMSocket.TerminatorDataHandlingAdapter.#ctor(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="maxSize"></param>
+            <param name="minSize"></param>
+            <param name="terminatorCode"></param>
+        </member>
+        <member name="P:RRQMSocket.TerminatorDataHandlingAdapter.MaxSize">
+            <summary>
+            在未找到终止因子时，允许的最大长度，默认1024
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TerminatorDataHandlingAdapter.MinSize">
+            <summary>
+            即使找到了终止因子，也不会结束，默认0
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TerminatorDataHandlingAdapter.PreviewReceived(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            预处理
+            </summary>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.TerminatorDataHandlingAdapter.PreviewSend(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            预处理
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="isAsync"></param>
+        </member>
+        <member name="T:RRQMSocket.ClearType">
+            <summary>
+            清理统计类型
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ClearType.Send">
+            <summary>
+            从发送统计
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ClearType.Receive">
+            <summary>
+            从接收统计
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.FixedHeaderType">
+            <summary>
+            固定包头类型
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderType.Byte">
+            <summary>
+            以1Byte标识长度，最长接收255
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderType.Ushort">
+            <summary>
+            以2Byte标识长度，最长接收65535
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.FixedHeaderType.Int">
+            <summary>
+            以4Byte标识长度，最长接收2147483647
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ServerState">
+            <summary>
+            服务器状态
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerState.None">
+            <summary>
+            无状态，指示为初建
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerState.Running">
+            <summary>
+            正在运行
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerState.Stopped">
+            <summary>
+            已停止
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ServerState.Disposed">
+            <summary>
+            已释放
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.BytesEventArgs">
+            <summary>
+            字节事件
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.BytesEventArgs.#ctor(System.Byte[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:RRQMSocket.BytesEventArgs.ReceivedDataBytes">
+            <summary>
+            字节数组
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.MesEventArgs">
+            <summary>
+            消息事件
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.MesEventArgs.#ctor(System.String)">
+            <summary>
+             构造函数
+            </summary>
+            <param name="mes"></param>
+        </member>
+        <member name="M:RRQMSocket.MesEventArgs.#ctor">
+            <summary>
+            直接构造函数
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.MesEventArgs.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ReturnBytesEventArgs">
+            <summary>
+            允许返回的字节
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ReturnBytesEventArgs.#ctor(System.Byte[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="receivedData"></param>
+        </member>
+        <member name="P:RRQMSocket.ReturnBytesEventArgs.ReturnDataBytes">
+            <summary>
+            返回字节
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.RRQMNotConnectedException">
+            <summary>
+            未连接异常
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMNotConnectedException.#ctor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMNotConnectedException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMNotConnectedException.#ctor(System.String,System.Exception)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+             <param name="inner"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMNotConnectedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <param name="context"></param>
+        </member>
+        <member name="T:RRQMSocket.RRQMOverlengthException">
+            <summary>
+            超长异常
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMOverlengthException.#ctor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMOverlengthException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMOverlengthException.#ctor(System.String,System.Exception)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+             <param name="inner"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMOverlengthException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <param name="context"></param>
+        </member>
+        <member name="T:RRQMSocket.RRQMTimeoutException">
+            <summary>
+            超时异常
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMTimeoutException.#ctor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:RRQMSocket.RRQMTimeoutException.#ctor(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMTimeoutException.#ctor(System.String,System.Exception)">
+             <summary>
+            
+             </summary>
+             <param name="message"></param>
+             <param name="inner"></param>
+        </member>
+        <member name="M:RRQMSocket.RRQMTimeoutException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <param name="context"></param>
+        </member>
+        <member name="T:RRQMSocket.IClient">
+            <summary>
+            终端接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IClient.IP">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IClient.Port">
+            <summary>
+            端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IClient.MainSocket">
+            <summary>
+            主通信器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IClient.BytePool">
+            <summary>
+            内存池实例
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IClient.Send(System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IClient.Send(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IClient.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IClient.SendAsync(System.Byte[])">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IClient.SendAsync(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            IOCP发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.IHandleBuffer">
+            <summary>
+            处理数据
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IHandleBuffer.HandleBuffer(RRQMSocket.ClientBuffer)">
+            <summary>
+             处理数据
+            </summary>
+            <param name="clientBuffer"></param>
+        </member>
+        <member name="T:RRQMSocket.IService">
+            <summary>
+            服务器接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IService.BytePool">
+            <summary>
+            获取默认内存池实例
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IService.ServerState">
+            <summary>
+            服务器状态
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IService.ServerConfig">
+            <summary>
+            获取服务器配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IService.ServerName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IService.Setup(RRQMSocket.ServerConfig)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="serverConfig">配置</param>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IService.Setup(System.Int32)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="port"></param>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IService.Start">
+            <summary>
+            启动
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:RRQMSocket.IService.Stop">
+            <summary>
+            停止
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.ISocket">
+            <summary>
+            Socket基接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ISocket.BufferLength">
+            <summary>
+            数据交互缓存池限制
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ISocket.Logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ISocketClient">
+            <summary>
+            服务器辅助类接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ISocketClient.ID">
+            <summary>
+            用于索引的ID
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ISocketClient.Flag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ISocketClient.Service">
+            <summary>
+            包含此辅助类的主服务器类
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ITcpClient">
+            <summary>
+            TCP客户端接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpClient.Online">
+            <summary>
+            判断是否在线
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpClient.Name">
+            <summary>
+            IP及端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpClient.DataHandlingAdapter">
+            <summary>
+            数据处理适配器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ITcpClient.Shutdown(System.Net.Sockets.SocketShutdown)">
+            <summary>
+            禁用发送或接收
+            </summary>
+            <param name="how"></param>
+        </member>
+        <member name="T:RRQMSocket.ITcpService`1">
+            <summary>
+            TCP系列服务器接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpService`1.MaxCount">
+            <summary>
+            获取最大可连接数
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpService`1.SocketClients">
+            <summary>
+            获取当前连接的所有客户端
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.ITcpService`1.ClearInterval">
+            <summary>
+            获取清理无数据交互的SocketClient，默认60。如果不想清除，可使用-1。
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.ITcpService`1.ClientConnected">
+            <summary>
+            客户端成功连接时
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.ITcpService`1.ClientDisconnected">
+            <summary>
+            有用户断开连接的时候
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.SocketClientExist(System.String)">
+            <summary>
+            根据ID判断SocketClient是否存在
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.TryGetSocketClient(System.String,`0@)">
+            <summary>
+            尝试获取TClient
+            </summary>
+            <param name="id">ID</param>
+            <param name="socketClient">TClient</param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.Send(System.String,System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.Send(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.Send(System.String,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="byteBlock"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.SendAsync(System.String,System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.SendAsync(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ITcpService`1.SendAsync(System.String,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="byteBlock"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.IUserClient">
+            <summary>
+            用户终端接口
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IUserClient.Connect">
+            <summary>
+            连接服务器
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IUserClient.ConnectAsync(System.Action{RRQMSocket.AsyncResult})">
+            <summary>
+            异步连接服务器
+            </summary>
+            <param name="callback"></param>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.IUserClient.Setup(RRQMSocket.TcpClientConfig)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="clientConfig"></param>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.IUserTcpClient">
+            <summary>
+            TCP客户端终端接口
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IUserTcpClient.OnlySend">
+            <summary>
+            仅发送，即不会开启接收线程。
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.IUserTcpClient.ClientConfig">
+            <summary>
+            客户端配置
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.IUserTcpClient.Disconnect">
+            <summary>
+            断开连接
+            </summary>
+        </member>
+        <member name="T:RRQMSocket._ITcpService">
+            <summary>
+            TCP服务器辅助接口
+            </summary>
+        </member>
+        <member name="M:RRQMSocket._ITcpService.ResetID(System.String,System.String)">
+            <summary>
+            重新设置ID
+            </summary>
+            <param name="oldID"></param>
+            <param name="newID"></param>
+        </member>
+        <member name="T:RRQMSocket.BufferQueue">
+            <summary>
+            buffer队列
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.ClientBuffer">
+            <summary>
+            处理
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.SocketCliectCollection`1">
+            <summary>
+            客户端集合
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketCliectCollection`1.Count">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketCliectCollection`1.GetIDs">
+            <summary>
+            获取ID集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.SocketCliectCollection`1.TryGetSocketClient(System.String,`0@)">
+            <summary>
+            尝试获取实例
+            </summary>
+            <param name="id"></param>
+            <param name="socketClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.SocketCliectCollection`1.SocketClientExist(System.String)">
+            <summary>
+            根据ID判断SocketClient是否存在
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="P:RRQMSocket.SocketCliectCollection`1.Item(System.String)">
+            <summary>
+            获取SocketClient
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.SocketCliectCollection`1.Dispose">
+            <summary>
+            释放客户端
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.Log">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.Log.Debug(RRQMCore.Log.LogType,System.Object,System.String)">
+            <summary>
+            记录日志
+            </summary>
+            <param name="logType"></param>
+            <param name="source"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:RRQMSocket.Log.Debug(RRQMCore.Log.LogType,System.Object,System.String,System.Exception)">
+            <summary>
+            记录日志
+            </summary>
+            <param name="logType"></param>
+            <param name="source"></param>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="T:RRQMSocket.VerifyOption">
+            <summary>
+            Token连接验证
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.VerifyOption.Token">
+            <summary>
+            令箭
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.VerifyOption.Accept">
+            <summary>
+            是否接受
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.VerifyOption.ErrorMessage">
+            <summary>
+            不接受时，返回客户端信息
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.VerifyOption.Flag">
+            <summary>
+            标记，会同步至TcpSocketClient
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.Pool.IClientGroup">
+            <summary>
+            终端组
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.Pool.IConnectionPool`1">
+            <summary>
+            连接池接口
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.Pool.IConnectionPool`1.OnClientError">
+            <summary>
+            当池中的客户都端发生错误时
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.Pool.IConnectionPool`1.Logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.Pool.IConnectionPool`1.BytePool">
+            <summary>
+            获取内存池实例
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.Pool.IConnectionPool`1.Capacity">
+            <summary>
+            对象池容量
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.Pool.IConnectionPool`1.ErrorClientList">
+            <summary>
+            发生错误的客户端列表
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.Pool.IConnectionPool`1.GetNextClient">
+            <summary>
+            获取即将在下一次通信的客户端单体
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.Pool.IConnectionPool`1.Replenish(`0)">
+            <summary>
+            补充成员
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:RRQMSocket.Pool.IConnectionPool`1.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.Pool.IConnectionPool`1.Send(System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.Pool.IConnectionPool`1.Send(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="T:RRQMSocket.ProtocolClient">
+            <summary>
+            协议客户端
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.AddUsedProtocol(System.Int16,System.String)">
+            <summary>
+            添加已被使用的协议
+            </summary>
+            <param name="procotol"></param>
+            <param name="describe"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.OnConnectedService(RRQMSocket.MesEventArgs)">
+            <summary>
+            连接到服务器时
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.LoadConfig(RRQMSocket.TcpClientConfig)">
+            <summary>
+            载入配置，协议客户端数据处理适配器不可更改。
+            </summary>
+            <param name="clientConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.ResetID(System.String)">
+            <summary>
+            重新设置ID,并且同步到服务器
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流(仍然为同步发送)
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.Send(System.Int16,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.SendAsync(System.Int16,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.InternalSend(System.Int16,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            内部发送，不会进行协议检测
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="reserved"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.InternalSend(System.Int16,RRQMCore.ByteManager.ByteBlock,System.Boolean)">
+            <summary>
+            内部发送，不会进行协议检测
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+            <param name="reserved"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.SocketSend(System.Int16,System.Byte[])">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataBuffer"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.Send(System.Int16,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送协议流
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataByteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.Send(System.Int16)">
+            <summary>
+            发送协议状态
+            </summary>
+            <param name="procotol"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            密封方法
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.HandleProtocolData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            收到协议数据，由于性能考虑，
+            byteBlock数据源并未剔除协议数据，
+            所以真实数据起点为2，
+            长度为Length-2。
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolClient.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="T:RRQMSocket.SimpleProtocolClient">
+            <summary>
+            协议客户端
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleProtocolClient.Received">
+            <summary>
+            接收到数据
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleProtocolClient.HandleProtocolData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            处理协议数据
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleTcpClient">
+            <summary>
+            简单TCP客户端
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTcpClient.Received">
+            <summary>
+            接收到数据
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleTcpClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            接收数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.SimpleTcpClient.OnReceived(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            接收到数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleTokenClient">
+            <summary>
+            简单Token客户端
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTokenClient.Received">
+            <summary>
+            接收到数据
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleTokenClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            接收数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="T:RRQMSocket.TcpClient">
+            <summary>
+            TCP客户端
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.TcpClient.clientConfig">
+            <summary>
+            客户端配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.MainSocket">
+            <summary>
+            主通信器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.Name">
+            <summary>
+            IP及端口
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.TcpClient.ConnectedService">
+            <summary>
+            成功连接到服务器
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.TcpClient.DisconnectedService">
+            <summary>
+            断开连接
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.IP">
+            <summary>
+            IPv4地址
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.Port">
+            <summary>
+            端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.BytePool">
+            <summary>
+            获取内存池实例
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.ClientConfig">
+            <summary>
+            客户端配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.DataHandlingAdapter">
+            <summary>
+            数据处理适配器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.Online">
+            <summary>
+            判断是否已连接
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.OnlySend">
+            <summary>
+            仅发送，即不会开启接收线程。
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpClient.SeparateThreadSend">
+            <summary>
+            在异步发送时，使用独立线程发送
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Connect">
+            <summary>
+            连接到服务器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.ConnectAsync(System.Action{RRQMSocket.AsyncResult})">
+            <summary>
+            异步连接服务器
+            </summary>
+            <param name="callback"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Disconnect">
+            <summary>
+            断开连接
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Dispose">
+            <summary>
+            断开链接并释放资源
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Send(System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Send(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.SendAsync(System.Byte[])">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.SendAsync(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            IOCP发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Setup(RRQMSocket.TcpClientConfig)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="clientConfig"></param>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.Shutdown(System.Net.Sockets.SocketShutdown)">
+            <summary>
+            禁用发送或接收
+            </summary>
+            <param name="how"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.ReadIpPort">
+            <summary>
+            读取IP、Port
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            处理已接收到的数据。
+            覆盖父类方法将不触发OnReceived事件。
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.LoadConfig(RRQMSocket.TcpClientConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="clientConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.OnConnectedService(RRQMSocket.MesEventArgs)">
+            <summary>
+            连接到服务器
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.OnDisconnectedService(RRQMSocket.MesEventArgs)">
+            <summary>
+            断开连接
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.PreviewConnect(System.Net.Sockets.Socket)">
+            <summary>
+            在Socket初始化对象后，Connect之前调用。
+            可用于设置Socket参数。
+            父类方法可覆盖。
+            </summary>
+            <param name="socket"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.BeginReceive">
+            <summary>
+            启动消息接收
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.ProcessSend(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>
+            发送完成时处理函数
+            </summary>
+            <param name="e">与发送完成操作相关联的SocketAsyncEventArg对象</param>
+        </member>
+        <member name="M:RRQMSocket.TcpClient.SetDataHandlingAdapter(RRQMSocket.DataHandlingAdapter)">
+            <summary>
+            设置数据处理适配器
+            </summary>
+            <param name="adapter"></param>
+        </member>
+        <member name="T:RRQMSocket.TokenClient">
+            <summary>
+            需要验证的TCP客户端
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenClient.VerifyToken">
+            <summary>
+            验证令箭
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenClient.ID">
+            <summary>
+            获取服务器分配的ID
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenClient.VerifyTimeout">
+            <summary>
+            验证超时时间,默认为3秒；
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TokenClient.ResetID(System.String)">
+            <summary>
+            重新设置ID,但是不会同步到服务器
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:RRQMSocket.TokenClient.Connect">
+            <summary>
+            连接到服务器
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+            <exception cref="T:RRQMSocket.RRQMTimeoutException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TokenClient.LoadConfig(RRQMSocket.TcpClientConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="clientConfig"></param>
+        </member>
+        <member name="T:RRQMSocket.ProtocolService`1">
+            <summary>
+            协议服务器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProtocolService`1.ResetID(System.String,System.String)">
+            <summary>
+            重置ID
+            </summary>
+            <param name="oldID"></param>
+            <param name="newID"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolService`1.LoadConfig(RRQMSocket.ServerConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleProtocolService">
+            <summary>
+            简单协议服务器
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleProtocolService.Received">
+            <summary>
+            处理数据
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleProtocolService.CreateSocketCliect">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreat值再做处理。
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleProtocolService.OnCreateSocketCliect(RRQMSocket.SimpleProtocolSocketClient,RRQMSocket.CreateOption)">
+            <summary>
+            接收辅助类
+            </summary>
+            <param name="tcpSocketClient"></param>
+            <param name="createOption"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleTcpService">
+            <summary>
+            若汝棋茗内置TCP验证服务器
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTcpService.Received">
+            <summary>
+            处理数据
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTcpService.CreateSocketCliect">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreat值再做处理。
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleTcpService.OnCreateSocketCliect(RRQMSocket.SimpleSocketClient,RRQMSocket.CreateOption)">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreat值再做处理。
+            </summary>
+            <param name="tcpSocketClient"></param>
+            <param name="creatOption"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleTokenService">
+            <summary>
+            简单Token服务器
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTokenService.Received">
+            <summary>
+            处理数据
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleTokenService.CreateSocketCliect">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreat值再做处理。
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleTokenService.OnCreateSocketCliect(RRQMSocket.SimpleSocketClient,RRQMSocket.CreateOption)">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreat值再做处理。
+            </summary>
+            <param name="tcpSocketClient"></param>
+            <param name="creatOption"></param>
+        </member>
+        <member name="T:RRQMSocket.TcpService`1">
+            <summary>
+            TCP服务器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.BytePool">
+            <summary>
+            获取默认内存池
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ClearInterval">
+            <summary>
+            获取清理无数据交互的SocketClient，默认60。如果不想清除，可使用-1。
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ListenIPHosts">
+            <summary>
+            获取监听的地址组
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ListenSockets">
+            <summary>
+            获取正在监听的socket组
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.MaxCount">
+            <summary>
+            最大可连接数
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ServerName">
+            <summary>
+            服务器名称
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ServerConfig">
+            <summary>
+            获取服务器配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.ServerState">
+            <summary>
+            服务器状态
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TcpService`1.SocketClients">
+            <summary>
+            获取当前连接的所有客户端
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.TcpService`1.ClientConnected">
+            <summary>
+            有用户连接的时候
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.TcpService`1.ClientDisconnected">
+            <summary>
+            有用户断开连接的时候
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Dispose">
+            <summary>
+            关闭服务器并释放服务器资源
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.ResetID(System.String,System.String)">
+            <summary>
+            重新设置ID
+            </summary>
+            <param name="oldID"></param>
+            <param name="newID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Send(System.String,System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Send(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Send(System.String,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="byteBlock"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.SendAsync(System.String,System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.SendAsync(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.SendAsync(System.String,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="id">用于检索TcpSocketClient</param>
+            <param name="byteBlock"></param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Setup(RRQMSocket.ServerConfig)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Setup(System.Int32)">
+            <summary>
+            配置服务器
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.SocketClientExist(System.String)">
+            <summary>
+            根据ID判断SocketClient是否存在
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Start">
+            <summary>
+            启动服务
+            </summary>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.Stop">
+            <summary>
+            停止服务器，可重新启动
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.TryGetSocketClient(System.String,`0@)">
+            <summary>
+            尝试获取TClient
+            </summary>
+            <param name="id">ID</param>
+            <param name="socketClient">TClient</param>
+            <returns></returns>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.LoadConfig(RRQMSocket.ServerConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.OnCreateSocketCliect(`0,RRQMSocket.CreateOption)">
+            <summary>
+            成功连接后创建（或从对象池中获得）辅助类,
+            用户可以在该方法中再进行自定义设置，
+            但是如果该对象是从对象池获得的话，为避免重复设定某些值，
+            例如事件等，请先判断CreatOption.NewCreate值再做处理。
+            </summary>
+            <param name="socketClient"></param>
+            <param name="createOption"></param>
+        </member>
+        <member name="M:RRQMSocket.TcpService`1.PreviewBind(System.Net.Sockets.Socket)">
+            <summary>
+            在Socket初始化对象后，Bind之前调用。
+            可用于设置Socket参数。
+            父类方法可覆盖。
+            </summary>
+            <param name="socket"></param>
+        </member>
+        <member name="T:RRQMSocket.TokenService`1">
+            <summary>
+            需要验证的TCP服务器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenService`1.VerifyToken">
+            <summary>
+            连接令箭
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.TokenService`1.VerifyTimeout">
+            <summary>
+            验证超时时间,默认为3秒
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.TokenService`1.LoadConfig(RRQMSocket.ServerConfig)">
+            <summary>
+            载入配置
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.TokenService`1.OnVerifyToken(RRQMSocket.VerifyOption)">
+            <summary>
+            当验证Token时
+            </summary>
+            <param name="verifyOption"></param>
+        </member>
+        <member name="T:RRQMSocket.ProtocolSocketClient">
+            <summary>
+            协议辅助类
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.ProtocolSocketClient.procotolHelper">
+            <summary>
+            辅助发送器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.OnBeforeReceive">
+            <summary>
+            接收之前
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.AddUsedProtocol(System.Int16,System.String)">
+            <summary>
+            添加已被使用的协议
+            </summary>
+            <param name="procotol"></param>
+            <param name="describe"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流(仍然为同步发送)
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.Send(System.Int16,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.SendAsync(System.Int16,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.InternalSend(System.Int16,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            内部发送，不会进行协议检测
+            </summary>
+            <param name="procotol"></param>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="reserved"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.InternalSend(System.Int16,RRQMCore.ByteManager.ByteBlock,System.Boolean)">
+            <summary>
+            内部发送，不会进行协议检测
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+            <param name="reserved"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.SocketSend(System.Int16,System.Byte[])">
+            <summary>
+            发送字节
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataBuffer"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.Send(System.Int16,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送协议流
+            </summary>
+            <param name="procotol"></param>
+            <param name="dataByteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.Send(System.Int16)">
+            <summary>
+            发送协议状态
+            </summary>
+            <param name="procotol"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.ResetID(System.String)">
+            <summary>
+            重新设置ID
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            密封方法
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.ProtocolSocketClient.HandleProtocolData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            收到协议数据，由于性能考虑，
+            byteBlock数据源并未剔除协议数据，
+            所以真实数据起点为2，
+            长度为Length-2。
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleProtocolSocketClient">
+            <summary>
+            SimpleProtocolSocketClient
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.SimpleProtocolSocketClient.OnReceived">
+            <summary>
+            收到消息
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleProtocolSocketClient.HandleProtocolData(System.Nullable{System.Int16},RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            处理协议数据
+            </summary>
+            <param name="procotol"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="T:RRQMSocket.SimpleSocketClient">
+            <summary>
+            服务器辅助类
+            </summary>
+        </member>
+        <member name="F:RRQMSocket.SimpleSocketClient.OnReceived">
+            <summary>
+            收到消息
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleSocketClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            处理数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="T:RRQMSocket.SocketClient">
+            <summary>
+            服务器辅助类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.MainSocket">
+            <summary>
+            主通信器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.IP">
+            <summary>
+            IPv4地址
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.Port">
+            <summary>
+            端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.BytePool">
+            <summary>
+            获取内存池实例
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.DataHandlingAdapter">
+            <summary>
+            数据处理适配器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.Flag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.ID">
+            <summary>
+            用于索引的ID
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.NewCreate">
+            <summary>
+            是否为新建对象
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.Online">
+            <summary>
+            判断该实例是否还在线
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.Service">
+            <summary>
+            包含此辅助类的主服务器类
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.SocketClient.Name">
+            <summary>
+            IP及端口
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Create">
+            <summary>
+            初次创建对象，效应相当于构造函数，父类方法可覆盖
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.ReadIpPort">
+            <summary>
+            读取IP、Port
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Destroy">
+            <summary>
+            在断开连接时销毁对象，父类方法不可覆盖
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Dispose">
+            <summary>
+            完全释放资源
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.SetDataHandlingAdapter(RRQMSocket.DataHandlingAdapter)">
+            <summary>
+            设置数据处理适配器
+            </summary>
+            <param name="adapter"></param>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.HandleBuffer(RRQMSocket.ClientBuffer)">
+            <summary>
+            处理数据
+            </summary>
+            <param name="clientBuffer"></param>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.ResetID(System.String)">
+            <summary>
+            重新设置ID
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.OnBeforeReceive">
+            <summary>
+            在接收之前
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Recreate">
+            <summary>
+            重新获取,父类方法不可覆盖
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Send(System.Byte[])">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送字节流
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Send(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.SendAsync(System.Byte[])">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.SendAsync(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            IOCP发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.Shutdown(System.Net.Sockets.SocketShutdown)">
+            <summary>
+            禁用发送或接收
+            </summary>
+            <param name="how"></param>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.GetTimeout(System.Int32,System.Int64)">
+            <summary>
+            测试是否在线
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.HandleReceivedData(RRQMCore.ByteManager.ByteBlock,System.Object)">
+            <summary>
+            处理已接收到的数据
+            </summary>
+            <param name="byteBlock"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.WaitReceive">
+            <summary>
+            等待接收
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.BeginReceive">
+            <summary>
+            启动消息接收
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SocketClient.ProcessSend(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>
+            发送完成时处理函数
+            </summary>
+            <param name="e">与发送完成操作相关联的SocketAsyncEventArg对象</param>
+        </member>
+        <member name="T:RRQMSocket.SimpleUdpSession">
+            <summary>
+            若汝棋茗内置UDP会话
+            </summary>
+        </member>
+        <member name="E:RRQMSocket.SimpleUdpSession.Received">
+            <summary>
+            当收到数据时
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.SimpleUdpSession.HandleReceivedData(System.Net.EndPoint,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            处理数据
+            </summary>
+            <param name="remoteEndPoint"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="T:RRQMSocket.UdpSession">
+            <summary>
+            TCP服务器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.DefaultRemotePoint">
+            <summary>
+            默认远程节点
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.MainSocket">
+            <summary>
+            主通信器
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.IP">
+            <summary>
+            IPv4地址
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.Port">
+            <summary>
+            端口号
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.RecivedCount">
+            <summary>
+            已接收数据次数
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.ServerState">
+            <summary>
+            获取服务器状态
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.BytePool">
+            <summary>
+            获取默认内存池
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.ServerConfig">
+            <summary>
+            获取配置
+            </summary>
+        </member>
+        <member name="P:RRQMSocket.UdpSession.ServerName">
+            <summary>
+            服务器名称
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.PreviewBind(System.Net.Sockets.Socket)">
+            <summary>
+            在Socket初始化对象后，Bind之前调用。
+            可用于设置Socket参数。
+            父类方法可覆盖。
+            </summary>
+            <param name="socket"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.ProcessSend(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>
+            发送完成时处理函数
+            </summary>
+            <param name="e">与发送完成操作相关联的SocketAsyncEventArg对象</param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.SendTo(System.Byte[],System.Int32,System.Int32,System.Net.EndPoint)">
+            <summary>
+            发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="remoteEP"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.HandleReceivedData(System.Net.EndPoint,RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            处理已接收到的数据
+            </summary>
+            <param name="remoteEndPoint"></param>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            向默认终结点发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Send(System.Byte[])">
+            <summary>
+            向默认终结点发送
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Send(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            向默认终结点发送
+            </summary>
+            <param name="byteBlock"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.SendAsync(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.SendAsync(System.Byte[],System.Int32,System.Int32,System.Net.EndPoint)">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="remoteEP"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.SendAsync(System.Byte[])">
+            <summary>
+            IOCP发送
+            </summary>
+            <param name="buffer"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.SendAsync(RRQMCore.ByteManager.ByteBlock)">
+            <summary>
+            IOCP发送流中的有效数据
+            </summary>
+            <param name="byteBlock"></param>
+            <exception cref="T:RRQMSocket.RRQMNotConnectedException"></exception>
+            <exception cref="T:RRQMSocket.RRQMOverlengthException"></exception>
+            <exception cref="T:RRQMCore.Exceptions.RRQMException"></exception>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Setup(RRQMSocket.ServerConfig)">
+            <summary>
+            配置服务
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Setup(System.Int32)">
+            <summary>
+            通过端口配置
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.LoadConfig(RRQMSocket.ServerConfig)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="serverConfig"></param>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Start">
+            <summary>
+            启动服务
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Stop">
+            <summary>
+            停止服务器
+            </summary>
+        </member>
+        <member name="M:RRQMSocket.UdpSession.Dispose">
+            <summary>
+            关闭服务器并释放服务器资源
+            </summary>
+        </member>
+        <member name="T:RRQMMessageEventHandler">
+            <summary>
+            显示信息
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMByteBlockEventHandler">
+            <summary>
+            ByteBlock
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMUDPByteBlockEventHandler">
+            <summary>
+            UDP接收
+            </summary>
+            <param name="endpoint"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMBytesEventHandler">
+            <summary>
+            字节数据
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:RRQMReturnBytesEventHandler">
+            <summary>
+            字节数据
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,7 @@
+2021-07-05 08:38:45,698  [0号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 08:44:26,566  [0号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 08:46:53,976  [0号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 08:57:34,789  [0号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 09:22:56,087  [0号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 09:25:23,096  [1号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}
+2021-07-05 09:25:56,071  [5号服务器处理线程]  INFO   {"method":"get_ver","data":"mes"}

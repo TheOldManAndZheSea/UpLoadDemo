@@ -51,3 +51,12 @@ E:\Github\UpLoadDemo\UpLoadSocketServer\obj\Debug\UpLoadSocketServer.pdb
 E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\log4net.dll
 E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\log4net.xml
 E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\log4net.config
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\UpLoadSocketServer.exe.config
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.dll
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.FileTransfer.dll
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMCore.dll
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.RPC.dll
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.FileTransfer.xml
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMCore.xml
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.xml
+E:\Github\UpLoadDemo\UpLoadSocketServer\bin\Debug\RRQMSocket.RPC.xml

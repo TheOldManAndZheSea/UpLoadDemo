@@ -1,0 +1,14 @@
+E:\Github\UpLoadDemo\UploadUserContrals\bin\Release\UploadUserContrals.dll
+E:\Github\UpLoadDemo\UploadUserContrals\bin\Release\UploadUserContrals.pdb
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.csprojAssemblyReference.cache
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\GeneratedInternalTypeHelper.g.cs
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals_MarkupCompile.cache
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals_MarkupCompile.lref
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\Style.baml
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\Themes\Generic.baml
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.g.resources
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.Properties.Resources.resources
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.csproj.GenerateResource.cache
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.csproj.CoreCompileInputs.cache
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.dll
+E:\Github\UpLoadDemo\UploadUserContrals\obj\Release\UploadUserContrals.pdb

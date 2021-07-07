@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UploadCommon</RootNamespace>
     <AssemblyName>UploadCommon</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -39,6 +42,18 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="RRQMCore, Version=2.0.2.0, Culture=neutral, PublicKeyToken=1691c0176f5d64c0, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMCore.2.0.2\lib\net45\RRQMCore.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket, Version=5.1.1.0, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.5.1.1\lib\net45\RRQMSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket.FileTransfer, Version=5.1.1.0, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.FileTransfer.5.1.1\lib\net45\RRQMSocket.FileTransfer.dll</HintPath>
+    </Reference>
+    <Reference Include="RRQMSocket.RPC, Version=5.1.1.1, Culture=neutral, PublicKeyToken=a9db37c9b0783a15, processorArchitecture=MSIL">
+      <HintPath>..\packages\RRQMSocket.RPC.5.1.1.1\lib\net45\RRQMSocket.RPC.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -52,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unitity\Logger.cs" />
+    <Compile Include="Unitity\MySocketServer.cs" />
     <Compile Include="Unitity\RelayCommand.cs" />
     <Compile Include="Unitity\SocketServer.cs" />
     <Compile Include="Unitity\ViewModelBase.cs" />

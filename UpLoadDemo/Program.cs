@@ -108,10 +108,11 @@ namespace UpLoadDemo
                 StreamReader sr = new StreamReader(fs);
                 string text = sr.ReadToEnd();
                 StaticModel.MyUpLoadModel = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
-                SocketClient socketClient = new SocketClient();
+                MyFileSocketClient.StartListen();
+                MyFileSocketClient.ClientSend(JsonSerializer.ObjectToJSON(new ReceiveEntityModel { method = "get_ver", data = StaticModel.MyUpLoadModel.ExeName }));
                 //socketClient.Start(StaticModel.MyUpLoadModel.ServerIP, StaticModel.MyUpLoadModel.ServerPort);
-                socketClient.SendMsg(JsonSerializer.ObjectToJSON(new ReceiveEntityModel { method = "get_ver", data = StaticModel.MyUpLoadModel.ExeName }));
-                while (socketClient.IsOk)
+                //socketClient.SendMsg();
+                while (MyFileSocketClient.IsOk)
                 {
 
                 }
@@ -122,18 +123,22 @@ namespace UpLoadDemo
                     foreach (var item in StaticModel.ServerUpLoadModel.UpLoadFiles)
                     {
                         var firstmodel = StaticModel.MyUpLoadModel.UpLoadFiles.FirstOrDefault(s => s.FileName == item.FileName);
-                        if (StaticModel.ServerUpLoadModel.UnWantedFiles!=null&&StaticModel.ServerUpLoadModel.UnWantedFiles.Where(s=>s.FileName.Equals(firstmodel.FileName)).Count()>0)
+                        if (StaticModel.MyUpLoadModel.UnWantedFiles==null||StaticModel.MyUpLoadModel.UnWantedFiles.Where(s=>s.FileName.Equals(item.FileName)).Count()==0)
                         {
-                            continue;
+                            if (firstmodel != null && !firstmodel.Version.Equals(item.Version))
+                            {
+                                uploadList.Add(item);
+                            }
+                            if (firstmodel == null)
+                            {
+                                uploadList.Add(item);
+                            }
                         }
-                        if (firstmodel != null && !firstmodel.Version.Equals(item.Version))
+                        else if (StaticModel.MyUpLoadModel.UnWantedFiles != null && StaticModel.MyUpLoadModel.UnWantedFiles.Where(s => s.FileName.Equals(item.FileName)).Count()==1&& firstmodel==null)
                         {
                             uploadList.Add(item);
                         }
-                        if (firstmodel == null)
-                        {
-                            uploadList.Add(item);
-                        }
+                        
                     }
                     StaticModel.UpLoads = uploadList;
                 }

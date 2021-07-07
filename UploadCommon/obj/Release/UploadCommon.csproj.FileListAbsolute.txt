@@ -1,0 +1,11 @@
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\UploadCommon.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\UploadCommon.pdb
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\log4net.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\Newtonsoft.Json.dll
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\log4net.xml
+E:\Github\UpLoadDemo\UploadCommon\bin\Release\Newtonsoft.Json.xml
+E:\Github\UpLoadDemo\UploadCommon\obj\Release\UploadCommon.csprojAssemblyReference.cache
+E:\Github\UpLoadDemo\UploadCommon\obj\Release\UploadCommon.csproj.CoreCompileInputs.cache
+E:\Github\UpLoadDemo\UploadCommon\obj\Release\UploadCommon.csproj.CopyComplete
+E:\Github\UpLoadDemo\UploadCommon\obj\Release\UploadCommon.dll
+E:\Github\UpLoadDemo\UploadCommon\obj\Release\UploadCommon.pdb

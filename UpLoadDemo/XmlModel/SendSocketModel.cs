@@ -12,5 +12,9 @@ namespace UpLoadDemo.XmlModel
         /// </summary>
         public string type { get; set; }
         public object socketdata { get; set; }
+        /// <summary>
+        /// 服务器的下载地址
+        /// </summary>
+        public string filepath { get; set; }
     }
 }
