@@ -64,13 +64,21 @@ namespace UpLoadDemo
                         fileOption = XmlSerializeHelper.DeSerialize<UpLoadOption>(text);
                     }
                     //读取目录下所有的文件和子文件夹信息
-                    List<string> filePaths = mD5Helper.GetFile(AppDomain.CurrentDomain.BaseDirectory + "Program", new List<string>());
-                    List<UpLoad> refLoads = new List<UpLoad>();
-                    foreach (var item in filePaths)
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "Program"))
                     {
-                        refLoads.Add(new UpLoad { FileName = item.Replace(AppDomain.CurrentDomain.BaseDirectory + "Program" + "\\", ""), Version = mD5Helper.GetFileMD5(item) });
+                        fileOption.UpLoadFiles = new List<UpLoad>();
                     }
-                    fileOption.UpLoadFiles = refLoads;
+                    else
+                    {
+                        List<string> filePaths = mD5Helper.GetFile(AppDomain.CurrentDomain.BaseDirectory + "Program", new List<string>());
+                        List<UpLoad> refLoads = new List<UpLoad>();
+                        foreach (var item in filePaths)
+                        {
+                            refLoads.Add(new UpLoad { FileName = item.Replace(AppDomain.CurrentDomain.BaseDirectory + "Program" + "\\", ""), Version = mD5Helper.GetFileMD5(item) });
+                        }
+                        fileOption.UpLoadFiles = refLoads;
+                    }
+                    
                     XmlSerializeHelper.Serialize<UpLoadOption>(fileOption, xmlpath);
                 }
                 
