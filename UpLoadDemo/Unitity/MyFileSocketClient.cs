@@ -78,8 +78,7 @@ namespace UpLoadDemo.Unitity
         {
             if (fileClient!=null&&fileClient.Online)
             {
-                fileClient.Disconnect();
-                fileClient.Dispose();
+                fileClient?.Dispose();
             }
         }
 

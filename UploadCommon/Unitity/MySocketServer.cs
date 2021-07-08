@@ -40,7 +40,7 @@ namespace UploadCommon.Unitity
                 {
                     var config = new FileServiceConfig();
                     config.SetValue(ServerConfig.ListenIPHostsProperty, new IPHost[] { new IPHost(54321) })
-                        .SetValue(ServerConfig.ThreadCountProperty, int.Parse("5"))
+                        .SetValue(ServerConfig.ThreadCountProperty, int.Parse("20"))
                         .SetValue(FileServiceConfig.MaxDownloadSpeedProperty, 1024 * 1024 * 10L)
                         .SetValue(FileServiceConfig.MaxUploadSpeedProperty, 1024 * 1024 * 10L);
 

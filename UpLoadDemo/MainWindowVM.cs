@@ -242,7 +242,7 @@ namespace UpLoadDemo
                     //持续卡顿5秒则退出
                     Thread.Sleep(100);
                     kadun += 100;
-                    if (kadun == 5000)
+                    if (kadun == 10000)
                     {
                         return false;
                     }
