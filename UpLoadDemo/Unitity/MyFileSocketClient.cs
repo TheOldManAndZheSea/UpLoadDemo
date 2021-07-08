@@ -52,6 +52,8 @@ namespace UpLoadDemo.Unitity
 
             try
             {
+                
+                fileClient.Timeout = 10;
                 fileClient.TransferFileError += FileClient_TransferFileError;
                 fileClient.BeforeFileTransfer += FileClient_BeforeFileTransfer; ;
                 fileClient.FinishedFileTransfer += FileClient_FinishedFileTransfer; ;
@@ -174,7 +176,7 @@ namespace UpLoadDemo.Unitity
             filePath = AppDomain.CurrentDomain.BaseDirectory + "Program\\" + text.FileName;
             if (!string.IsNullOrEmpty(ServerFilePath)&&fileClient != null && fileClient.Online)
             {
-                UrlFileInfo url = UrlFileInfo.CreatDownload(ServerFilePath + "\\" + text.FileName);
+                UrlFileInfo url = UrlFileInfo.CreatDownload(ServerFilePath + "\\" + text.FileName,true);
                 try
                 {
                     fileClient.RequestTransfer(url);

@@ -2,6 +2,8 @@
 using RRQMCore.ByteManager;
 using RRQMSocket;
 using RRQMSocket.FileTransfer;
+using RRQMSocket.RPC;
+using RRQMSocket.RPC.RRQMRPC;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,6 +43,8 @@ namespace UploadCommon.Unitity
                     var config = new FileServiceConfig();
                     config.SetValue(ServerConfig.ListenIPHostsProperty, new IPHost[] { new IPHost(54321) })
                         .SetValue(ServerConfig.ThreadCountProperty, int.Parse("20"))
+                        .SetValue(FileServiceConfig.BreakpointResumeProperty,true)
+                        .SetValue(FileServiceConfig.VerifyTimeoutProperty,8)
                         .SetValue(FileServiceConfig.MaxDownloadSpeedProperty, 1024 * 1024 * 10L)
                         .SetValue(FileServiceConfig.MaxUploadSpeedProperty, 1024 * 1024 * 10L);
 
@@ -49,6 +53,10 @@ namespace UploadCommon.Unitity
                     fileService.BeforeFileTransfer += FileService_BeforeSendFile;
                     fileService.Received += FileService_ReceiveSystemMes;
                     fileService.FinishedFileTransfer += FileService_SendFileFinished;
+                    RPCService rPCService = new RPCService();
+                    rPCService.RegistServer<MyOperation>();
+                    rPCService.AddRPCParser("fileService", fileService);
+                    rPCService.OpenServer();
                     fileService.Setup(config);
                     fileService.Start();
                     ShowMsg("启动成功");
@@ -145,5 +153,13 @@ namespace UploadCommon.Unitity
             }
         }
         #endregion
+    }
+    public class MyOperation : ServerProvider
+    {
+        [RRQMRPC]
+        public string SayHello(int a)
+        {
+            return a.ToString();
+        }
     }
 }

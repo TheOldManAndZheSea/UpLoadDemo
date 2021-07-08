@@ -196,9 +196,10 @@ namespace UpLoadDemo
 
                 if (!DownloadFile(item, uploadvalue))
                 {
+                    DownloadFile(item, uploadvalue);
                     //如果是失败 从新连接服务器
-                    MyFileSocketClient.StopListen();
-                    MyFileSocketClient.StartListen();
+                    //MyFileSocketClient.StopListen();
+                    //MyFileSocketClient.StartListen();
                 }
             }
             ProgressBarValue = 100;
@@ -240,8 +241,8 @@ namespace UpLoadDemo
                 while (MyFileSocketClient.IsDown)
                 {
                     //持续卡顿5秒则退出
-                    Thread.Sleep(100);
-                    kadun += 100;
+                    Thread.Sleep(10);
+                    kadun += 10;
                     if (kadun == 10000)
                     {
                         return false;
